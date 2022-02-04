@@ -3,6 +3,9 @@ const Review = require("./review").ReviewSchema;
 const Food = require("./food").FoodSchema;
 
 const User = new mongoose.Schema({
+  id: {
+    type: String,
+  },
   email: {
     type: String,
     default: "",
