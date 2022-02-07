@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const DiningHall = require('./diningHall').DiningHallSchema
-const Review = require('./review').ReviewSchema
+const mongoose = require('mongoose');
+const Review = require('./review').ReviewSchema;
 
 const Food = new mongoose.Schema({
   name: {
@@ -17,7 +16,10 @@ const Food = new mongoose.Schema({
   },
 
   reviews: [Review],
-  diningHall: [DiningHall],
+  diningHall: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "DiningHall",
+  }],
 })
 
 module.exports.FoodSchema = Food
