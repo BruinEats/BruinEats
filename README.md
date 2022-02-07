@@ -30,10 +30,11 @@ npm run client  // in another terminal
 
 # Develop new features
 
-When developing a new feature, checkout to a new branch
+When developing a new feature, pull from master for latest update, and checkout to a new branch
 
 ```
+git pull origin master
 git checkout -b <branch_name>
 ```
 
-After the new feature is been completed, start a pull request to the master branch on github, and request review from JeffreytheCoder and RandomY-2
+After the new feature is been completed, start a pull request to the master branch on github, and request review from JeffreytheCoder or RandomY-2
