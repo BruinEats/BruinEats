@@ -13,6 +13,7 @@ module.exports.register = async (req, res, next) => {
       res
         .status(400)
         .json({ message: "A User with the given email already exists" });
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -39,11 +40,13 @@ module.exports.signin = async (req, res, next) => {
 
     if (!signinUser) {
       res.status(404).json({ message: "User Not Found" });
+      return;
     }
 
     const isPasswordSame = await bcrypt.compare(password, signinUser.password);
     if (!isPasswordSame) {
       res.status(400).json({ message: "Password Not Correct " });
+      return;
     }
 
     const token = jwt.sign({ email, id: signinUser._id }, jwtSecretKey, {
