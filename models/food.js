@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const Food = new mongoose.Schema({
   name: {
@@ -7,21 +7,22 @@ const Food = new mongoose.Schema({
     required: true,
     unique: true,
   },
-
-  overallRating: {
+  rating: {
     type: Number,
     default: 0.0,
-    required: true,
   },
-
-  reviews: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Review",
-  }],
-  diningHall: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "DiningHall",
-  }],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
+  diningHall: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'DiningHall',
+    },
+  ],
 })
 
 module.exports.FoodSchema = Food
