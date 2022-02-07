@@ -13,6 +13,7 @@ npm install
 cd client && npm install
 ```
 Ask a member for the MongoDB access
+<br>
 3. Run the app on localhost
 ```
 npm run dev
