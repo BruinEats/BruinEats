@@ -48,6 +48,34 @@ module.exports.signin = async (req, res, next) => {
 
     res.status(200).json({ token: token });
   } catch (error) {
-    re.status(500).json(error);
+    res.status(500).json(error);
   }
 };
+
+module.exports.updateUsrInfo = async (req, res, next) => {
+  // console.log(req.params, req.query);
+  const { _id } = req.params;
+  const { newEmail, newPassword, newName } = req.body;
+
+  try {
+    const updateUser = await UserModel.findOne({ _id });
+
+    if (newEmail) {
+      updateUser.email = newEmail;
+    }
+
+    if (newPassword) {
+      updateUser.password = newPassword;
+    }
+
+    if (newName) {
+      updateUser.name = newName;
+    }
+
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, updateUser, {new: true});
+    await updatedUser.save();
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
