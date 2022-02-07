@@ -57,7 +57,6 @@ module.exports.signin = async (req, res, next) => {
 };
 
 module.exports.updateUsrInfo = async (req, res, next) => {
-  // console.log(req.params, req.query);
   const { _id } = req.params;
   const { newEmail, newPassword, newName } = req.body;
 
@@ -76,10 +75,12 @@ module.exports.updateUsrInfo = async (req, res, next) => {
       updateUser.name = newName;
     }
 
-    const updatedUser = await UserModel.findByIdAndUpdate(_id, updateUser, {new: true});
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, updateUser, {
+      new: true,
+    });
     await updatedUser.save();
     res.status(200).json(updatedUser);
   } catch (error) {
     res.status(500).json(error);
   }
-}
+};
