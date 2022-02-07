@@ -1,7 +1,8 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const jwtSecretKey = require("../config/default.json").jwtSecret;
-const UserModel = require("../models/user");
+/* eslint-disable no-underscore-dangle */
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const jwtSecretKey = require('../config/default.json').jwtSecret;
+const UserModel = require('../models/user');
 
 module.exports.register = async (req, res, next) => {
   const { email, password, name } = req.body;
@@ -12,7 +13,7 @@ module.exports.register = async (req, res, next) => {
     if (existingUser) {
       res
         .status(400)
-        .json({ message: "A User with the given email already exists" });
+        .json({ message: 'A User with the given email already exists' });
       return;
     }
 
@@ -23,7 +24,7 @@ module.exports.register = async (req, res, next) => {
       name,
     });
     const token = jwt.sign({ email, id: newUser._id }, jwtSecretKey, {
-      expiresIn: "1h",
+      expiresIn: '1h',
     });
 
     res.status(200).json({ token: token });
@@ -39,18 +40,18 @@ module.exports.signin = async (req, res, next) => {
     const signinUser = await UserModel.findOne({ email });
 
     if (!signinUser) {
-      res.status(404).json({ message: "User Not Found" });
+      res.status(404).json({ message: 'User Not Found' });
       return;
     }
 
     const isPasswordSame = await bcrypt.compare(password, signinUser.password);
     if (!isPasswordSame) {
-      res.status(400).json({ message: "Password Not Correct " });
+      res.status(400).json({ message: 'Password Not Correct ' });
       return;
     }
 
     const token = jwt.sign({ email, id: signinUser._id }, jwtSecretKey, {
-      expiresIn: "1h",
+      expiresIn: '1h',
     });
 
     res.status(200).json({ token: token });

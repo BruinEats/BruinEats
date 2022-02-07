@@ -7,12 +7,12 @@ const DiningHall = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  foods: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Food',
+    },
+  ],
+});
 
-  food: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Food",
-  }],
-})
-
-module.exports.DiningHallSchema = DiningHall
-module.exports.DiningHallModel = mongoose.model('DiningHall', DiningHall)
+module.exports = mongoose.model('DiningHall', DiningHall);
