@@ -10,7 +10,6 @@
     "object-shorthand": "off",
     "class-methods-use-this": "off"
   },
-  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "allowImportExportEverywhere": true
