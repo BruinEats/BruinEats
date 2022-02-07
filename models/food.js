@@ -18,8 +18,8 @@ const Food = new mongoose.Schema({
     },
   ],
   diningHall: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'DiningHall',
+    type: String,
+    required: true,
   },
 });
 
