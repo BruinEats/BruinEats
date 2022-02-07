@@ -7,7 +7,7 @@ const DiningHall = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  food: [
+  foods: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
@@ -15,5 +15,4 @@ const DiningHall = new mongoose.Schema({
   ],
 });
 
-module.exports.DiningHallSchema = DiningHall;
-module.exports.DiningHallModel = mongoose.model('DiningHall', DiningHall);
+module.exports = mongoose.model('DiningHall', DiningHall);

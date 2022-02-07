@@ -17,13 +17,10 @@ const Food = new mongoose.Schema({
       ref: 'Review',
     },
   ],
-  diningHall: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'DiningHall',
-    },
-  ],
+  diningHall: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'DiningHall',
+  },
 });
 
-module.exports.FoodSchema = Food;
-module.exports.FoodModel = mongoose.model('Food', Food);
+module.exports = mongoose.model('Food', Food);
