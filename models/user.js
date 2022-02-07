@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const Review = require('./review').ReviewSchema
+const Food = require('./food').FoodSchema
 
 const User = new mongoose.Schema({
   id: {
@@ -24,18 +26,8 @@ const User = new mongoose.Schema({
   // might need s3 bucket
   // avatar
 
-  reviews: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Review',
-    },
-  ],
-  favorites: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Food',
-    },
-  ],
-});
+  reviews: [Review],
+  favorites: [Food],
+})
 
-module.exports = mongoose.model('User', User);
+module.exports = mongoose.model('User', User)
