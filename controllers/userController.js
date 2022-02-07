@@ -16,7 +16,11 @@ module.exports.register = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = await UserModel.create({ email, hashedPassword, name });
+    const newUser = await UserModel.create({
+      email,
+      password: hashedPassword,
+      name,
+    });
     const token = jwt.sign({ email, id: newUser._id }, jwtSecretKey, {
       expiresIn: "1h",
     });
@@ -34,7 +38,7 @@ module.exports.signin = async (req, res, next) => {
     const signinUser = await UserModel.findOne({ email });
 
     if (!signinUser) {
-      res.status(404).json({ message: "User Not Find" });
+      res.status(404).json({ message: "User Not Found" });
     }
 
     const isPasswordSame = await bcrypt.compare(password, signinUser.password);
