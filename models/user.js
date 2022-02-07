@@ -1,22 +1,22 @@
-const mongoose = require("mongoose");
-const Review = require("./review").ReviewSchema;
-const Food = require("./food").FoodSchema;
+const mongoose = require('mongoose')
+const Review = require('./review').ReviewSchema
+const Food = require('./food').FoodSchema
 
 const User = new mongoose.Schema({
   email: {
     type: String,
-    default: "",
+    default: '',
     required: true,
     unique: true,
   },
   password: {
     type: String,
-    default: "",
+    default: '',
     required: true,
   },
   name: {
     type: String,
-    default: "",
+    default: '',
     required: true,
   },
 
@@ -25,6 +25,6 @@ const User = new mongoose.Schema({
 
   reviews: [Review],
   favorites: [Food],
-});
+})
 
-module.exports = mongoose.model("User", User);
+module.exports = mongoose.model('User', User)
