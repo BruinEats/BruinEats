@@ -20,12 +20,8 @@ cd client && yarn install
 ```
 
 3. Ask a member for MongoDB access
-<br>
 4. Install Prettier VScode extension
-<br>
-https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode
-<br>
-4. Run the app on localhost
+5. Run the app on localhost
 
 ```
 npm run server
