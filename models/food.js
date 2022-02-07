@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Review = require('./review').ReviewSchema;
 
 const Food = new mongoose.Schema({
   name: {
@@ -15,7 +14,10 @@ const Food = new mongoose.Schema({
     required: true,
   },
 
-  reviews: [Review],
+  reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Review",
+  }],
   diningHall: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "DiningHall",
