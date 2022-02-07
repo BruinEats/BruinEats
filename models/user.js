@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const User = new mongoose.Schema({
   id: {
@@ -36,6 +36,6 @@ const User = new mongoose.Schema({
       ref: 'Food',
     },
   ],
-})
+});
 
-module.exports = mongoose.model('User', User)
+module.exports = mongoose.model('User', User);

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const DiningHall = new mongoose.Schema({
   name: {
@@ -13,7 +13,7 @@ const DiningHall = new mongoose.Schema({
       ref: 'Food',
     },
   ],
-})
+});
 
-module.exports.DiningHallSchema = DiningHall
-module.exports.DiningHallModel = mongoose.model('DiningHall', DiningHall)
+module.exports.DiningHallSchema = DiningHall;
+module.exports.DiningHallModel = mongoose.model('DiningHall', DiningHall);
