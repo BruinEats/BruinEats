@@ -1,54 +1,54 @@
 const mongoose = require('mongoose');
 
-const Food = new mongoose.Schema({
+const Menu = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
     unique: true,
   },
-  studyAtHedrick: [
+  HedrickStudy: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  theDrey: [
+  Drey: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  bruinCafe: [
+  BruinCafe: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  rendevzous: [
+  Rendevzous: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  feastAtRieber: [
+  FeastAtRieber: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  deNeve: [
+  DeNeve: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  bruinPlate: [
+  BruinPlate: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
     },
   ],
-  epicuria: [
+  Epicuria: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Food',
@@ -56,4 +56,4 @@ const Food = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model('Food', Food);
+module.exports = mongoose.model('Menu', Menu);

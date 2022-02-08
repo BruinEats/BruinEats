@@ -1,8 +1,9 @@
 const express = require('express');
-const { getMenu } = require('../controllers/menuController');
+const { getMenu, scrapMenuToday } = require('../controllers/menuController');
 
 const menuRouter = express.Router();
 
-menuRouter.post('/menu', menuRouter);
+menuRouter.post('/getMenu', getMenu);
+menuRouter.post('/scrapMenuToday', scrapMenuToday);
 
 module.exports = menuRouter;
