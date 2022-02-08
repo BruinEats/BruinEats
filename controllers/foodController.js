@@ -83,7 +83,7 @@ module.exports.scrap = async (req, res) => {
     // }
     return res.status(200).json(foods.length);
   } catch (err) {
-    console.error(err.message.substring(0, 255));
-    res.status(500).send(err.message.substring(0, 1000));
+    console.error(err.message);
+    res.status(500).send(err.message);
   }
 };
