@@ -9,12 +9,12 @@ module.exports.verifyAuthentication = async (req, res, next) => {
 
     jwt.verify(token, jwtSecretKey, (err, user) => {
       if (err) {
-        return res.sendStatus(403);
+        res.status(403).json({ message: 'Authentication Failed' });
+      } else {
+        next();
       }
-
-      return next();
     });
   } else {
-    res.sendStatus(401).json({ message: 'Token Invalid/Expired' });
+    res.status(401).json({ message: 'Authentication Failed' });
   }
 };
