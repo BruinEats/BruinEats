@@ -11,6 +11,7 @@ module.exports.verifyAuthentication = async (req, res, next) => {
       if (err) {
         res.status(403).json({ message: 'Authentication Failed' });
       } else {
+        req.user = user;
         next();
       }
     });
