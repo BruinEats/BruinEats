@@ -64,6 +64,16 @@ module.exports.updateUsrInfo = async (req, res) => {
   const { _id } = req.params;
   const { newEmail, newPassword, newName } = req.body;
 
+  if (req.user._id !== _id) {
+    res
+      .status(401)
+      .json({
+        message:
+          'Unauthorized: Your authentication token does not match with the user',
+      });
+    return;
+  }
+
   try {
     const updateUser = await UserModel.findOne({ _id });
 
