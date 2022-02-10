@@ -2,25 +2,11 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable node/no-unsupported-features/es-syntax */
+/* eslint no-underscore-dangle: 0 */
 
 const puppeteer = require('puppeteer');
 const FoodModel = require('../models/food');
 const DiningHallModel = require('../models/diningHall');
-
-const getMenu = async (dinningHall) => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
-  await page.goto(`http://menu.dining.ucla.edu/Menus/${dinningHall}`);
-
-  const foodNames = await page.$$eval('a.recipelink', (el) =>
-    el.map((item) => item.textContent)
-  );
-
-  await page.close();
-  await browser.close();
-  return foodNames;
-};
 
 const diningHalls = [
   {
@@ -57,6 +43,21 @@ const diningHalls = [
   },
 ];
 
+const getMenu = async (dinningHall) => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  await page.goto(`http://menu.dining.ucla.edu/Menus/${dinningHall}`);
+
+  const foodNames = await page.$$eval('a.recipelink', (el) =>
+    el.map((item) => item.textContent)
+  );
+
+  await page.close();
+  await browser.close();
+  return foodNames;
+};
+
 module.exports.scrap = async (req, res) => {
   try {
     const { hallName, hallLink } = req.body;
@@ -85,5 +86,33 @@ module.exports.scrap = async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send(err.message);
+  }
+};
+
+module.exports.getAllFood = async (req, res) => {
+  try {
+    const allFoods = await FoodModel.find();
+
+    res.status(200).json({
+      allFoods: allFoods.map((food) => ({
+        name: food.name,
+        rating: food.rating,
+        diningHall: food.diningHall,
+        _id: food._id,
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+module.exports.getFoodDetailById = async (req, res) => {
+  const { _id } = req.params;
+  try {
+    const food = await FoodModel.findOne({ _id });
+
+    res.status(200).json({ food });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };
