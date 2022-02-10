@@ -12,7 +12,9 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
     "@reduxjs/toolkit": "^1.7.2",
+    "axios": "^0.25.0",
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
@@ -39,5 +41,6 @@
     "eslint-plugin-react-native": "^4.0.0",
     "prettier": "2.5.1"
   },
-  "private": true
+  "private": true,
+  "proxy": "http://localhost:5000/"
 }
