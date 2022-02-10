@@ -65,12 +65,10 @@ module.exports.updateUsrInfo = async (req, res) => {
   const { newEmail, newPassword, newName } = req.body;
 
   if (req.user._id !== _id) {
-    res
-      .status(401)
-      .json({
-        message:
-          'Unauthorized: Your authentication token does not match with the user',
-      });
+    res.status(401).json({
+      message:
+        'Unauthorized: Your authentication token does not match with the user',
+    });
     return;
   }
 
@@ -111,6 +109,17 @@ module.exports.getUsrDetail = async (req, res) => {
     }
 
     res.status(200).json(signinUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports.getUsrByToken = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id);
+    console.log(req.user);
+
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json(error);
   }
