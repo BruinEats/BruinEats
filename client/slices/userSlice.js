@@ -21,7 +21,7 @@ export const login = createAsyncThunk('users/login', async (email, password) => 
   }
 });
 
-export const loadUser = createAsyncThunk('users/load', async (token) => {
+export const loadUser = createAsyncThunk('/api/user/info', async (token) => {
   try {
     const res = await axios.get('/api/user/load');
     // TODO : set alert
