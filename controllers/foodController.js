@@ -91,7 +91,12 @@ module.exports.scrap = async (req, res) => {
 
 module.exports.getAllFood = async (req, res) => {
   try {
-    const allFoods = await FoodModel.find();
+    const { page } = req.params;
+
+    const allFoods = await FoodModel.find()
+      .limit(20)
+      .skip((page - 1) * 20)
+      .exec();
 
     res.status(200).json({
       allFoods: allFoods.map((food) => ({
