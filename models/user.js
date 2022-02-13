@@ -4,6 +4,10 @@ const User = new mongoose.Schema({
   id: {
     type: String,
   },
+  admin: {
+    type: Boolean,
+    default: false,
+  },
   email: {
     type: String,
     default: '',
