@@ -17,7 +17,7 @@ const foodRouter = express.Router();
 
 foodRouter.post('/scrap', scrap);
 
-foodRouter.get('/all', getAllFood);
+foodRouter.get('/all/:page', getAllFood);
 
 foodRouter.post('/add_food', verifyAuthentication, verifyAdmin, addFood);
 
