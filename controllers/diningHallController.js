@@ -23,3 +23,37 @@ module.exports.add = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+
+
+module.exports.getAllDiningHall = async (req, res) => {
+  try {
+    const allDiningHalls = await DiningHallModel.find()
+
+    res.status(200).json({
+      allDiningHalls: allDiningHalls.map((diningHall) => ({
+        name: diningHall.name,
+      })),
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+module.exports.getAllDiningHallDetails = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const diningHallDetails = await DiningHallModel.findOne( {_id} );
+    // TOOD: Limit page display number
+    // .limit(20)
+      // .skip((page - 1) * 20)
+      // .exec();
+
+    res.status(200).json({
+      diningHallDetails,
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+
