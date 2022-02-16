@@ -6,7 +6,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import tw from 'tailwind-react-native-classnames';
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -28,15 +28,9 @@ const SignUpScreen = () => {
     // <ScrollView>
     <View style={styles.root}>
       {/* TODO: define image style with tailwinCSS */}
-      <Text style={tw`text-3xl font-bold text-left text-blue-900`}>
-        Create New Account
-      </Text>
+      <Text style={tw`text-3xl font-bold text-left text-blue-900`}>Create New Account</Text>
       <CustomInput placeholder="email" value={email} setValue={setEmail} />
-      <CustomInput
-        placeholder="username"
-        value={username}
-        setValue={setUsername}
-      />
+      <CustomInput placeholder="username" value={username} setValue={setUsername} />
       <CustomInput
         placeholder="password"
         value={password}
@@ -64,14 +58,9 @@ const SignUpScreen = () => {
       {/*
        */}
 
+      <CustomButton onPress={onSignUpPressed} text="Sign up" type="Primary" bgColor={'blue'} />
       <CustomButton
-        onPress={onSignUpPressed}
-        text="Sign up"
-        type="Primary"
-        bgColor={'blue'}
-      />
-      <CustomButton
-        onPress={onSignInPressed}
+        onPress={() => navigation.navigate('login')}
         text="Already have an account? Sign in"
         type="Tertiary"
         text_type="Tertiary"
