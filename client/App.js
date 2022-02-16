@@ -1,20 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
+import React from 'react';
+import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
 
-export default function App() {
+const App = () => {
   return (
     <View style={styles.container}>
-      <Text style={[tw`text-lg`]}>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <SignInScreen />
+      {/* <SignUpScreen /> */}
     </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F9FBFC',
     alignItems: 'center',
     justifyContent: 'center',
   },
