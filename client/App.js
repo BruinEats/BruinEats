@@ -21,7 +21,15 @@ import HomeScreen from './src/screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
-const App = () => {
+const ReduxWrapper = () => {
+  return (
+    <Provider store={store}>
+      <Navigator></Navigator>
+    </Provider>
+  );
+};
+
+const Navigator = () => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((state) => state.user);
 
@@ -32,18 +40,15 @@ const App = () => {
       loadUser(token);
     }
   }, []);
-
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="login">
-          {/* <Stack.Screen name="home" component={HomeScreen} /> */}
-          <Stack.Screen name="login" component={SignInScreen} />
-          <Stack.Screen name="register" component={SignUpScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="login">
+        {/* <Stack.Screen name="home" component={HomeScreen} /> */}
+        <Stack.Screen name="login" component={SignInScreen} />
+        <Stack.Screen name="register" component={SignUpScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-export default App;
+export default ReduxWrapper;
