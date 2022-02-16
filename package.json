@@ -13,7 +13,6 @@
   "author": "BruinEats Team",
   "license": "MIT",
   "dependencies": {
-    "@react-navigation/native": "^6.0.8",
     "axios": "^0.21.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.3",
