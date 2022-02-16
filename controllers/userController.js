@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwtSecretKey = require('../config/default.json').jwtSecret;
 const UserModel = require('../models/user');
 
-module.exports.register = async (req, res, next) => {
+module.exports.register = async (req, res) => {
   const { email, password, name } = req.body;
 
   try {
@@ -33,7 +33,7 @@ module.exports.register = async (req, res, next) => {
   }
 };
 
-module.exports.signin = async (req, res, next) => {
+module.exports.signin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -60,9 +60,17 @@ module.exports.signin = async (req, res, next) => {
   }
 };
 
-module.exports.updateUsrInfo = async (req, res, next) => {
+module.exports.updateUsrInfo = async (req, res) => {
   const { _id } = req.params;
   const { newEmail, newPassword, newName } = req.body;
+
+  if (req.user._id !== _id) {
+    res.status(401).json({
+      message:
+        'Unauthorized: Your authentication token does not match with the user',
+    });
+    return;
+  }
 
   try {
     const updateUser = await UserModel.findOne({ _id });
@@ -84,6 +92,34 @@ module.exports.updateUsrInfo = async (req, res, next) => {
     });
     await updatedUser.save();
     res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports.getUsrDetail = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const signinUser = await UserModel.findOne({ email });
+
+    if (!signinUser) {
+      res.status(404).json({ message: 'User Not Found' });
+      return;
+    }
+
+    res.status(200).json(signinUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports.getUsrByToken = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.id);
+    console.log(req.user);
+
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json(error);
   }
