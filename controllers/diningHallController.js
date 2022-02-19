@@ -24,10 +24,9 @@ module.exports.add = async (req, res) => {
   }
 };
 
-
 module.exports.getAllDiningHall = async (req, res) => {
   try {
-    const allDiningHalls = await DiningHallModel.find()
+    const allDiningHalls = await DiningHallModel.find();
 
     res.status(200).json({
       allDiningHalls: allDiningHalls.map((diningHall) => ({
@@ -42,11 +41,11 @@ module.exports.getAllDiningHall = async (req, res) => {
 module.exports.getAllDiningHallDetails = async (req, res) => {
   try {
     const { _id } = req.params;
-    const diningHallDetails = await DiningHallModel.findOne( {_id} );
+    const diningHallDetails = await DiningHallModel.findOne({ _id });
     // TOOD: Limit page display number
     // .limit(20)
-      // .skip((page - 1) * 20)
-      // .exec();
+    // .skip((page - 1) * 20)
+    // .exec();
 
     res.status(200).json({
       diningHallDetails,
@@ -55,5 +54,3 @@ module.exports.getAllDiningHallDetails = async (req, res) => {
     res.status(500).json({ error });
   }
 };
-
-
