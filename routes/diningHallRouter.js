@@ -1,5 +1,9 @@
 const express = require('express');
-const { add, getAllDiningHall, getAllDiningHallDetails } = require('../controllers/diningHallController');
+const {
+  add,
+  getAllDiningHall,
+  getAllDiningHallDetails,
+} = require('../controllers/diningHallController');
 
 const diningHallRouter = express.Router();
 

@@ -3,7 +3,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const jwtSecretKey = require('../config/default.json').jwtSecret;
-const { ReviewModel } = require('../models/review');
+const ReviewModel = require('../models/review');
 
 module.exports.addUsrReview = async (req, res, next) => {
   const { user_id, review_id } = req.params;
