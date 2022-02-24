@@ -18,7 +18,6 @@ import Spinner from './components/global/Spinner';
 
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
-
 // import HomeScreen from './src/screens/HomeScreen';
 import MenuScreen from './src/screens/MenuScreen';
 import FoodDetailScreen from './src/screens/FoodDetailScreen';
