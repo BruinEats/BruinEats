@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import React from 'react';
-import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
+import { ApplicationProvider, Layout, Text, useTheme } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
 import { NavigationContainer } from '@react-navigation/native';
