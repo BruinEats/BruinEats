@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import React from 'react';
+import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,14 +17,16 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="menu">
-        {/* <Stack.Screen name="home" component={HomeScreen} /> */}
-        <Stack.Screen name="menu" component={MenuScreen} />
-        {/* <Stack.Screen name="login" component={SignInScreen} /> */}
-        {/* <Stack.Screen name="register" component={SignUpScreen} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="menu">
+          {/* <Stack.Screen name="home" component={HomeScreen} /> */}
+          <Stack.Screen name="menu" component={MenuScreen} />
+          {/* <Stack.Screen name="login" component={SignInScreen} /> */}
+          {/* <Stack.Screen name="register" component={SignUpScreen} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApplicationProvider>
   );
 };
 
