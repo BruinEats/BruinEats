@@ -18,6 +18,7 @@ app.use('/api/food', require('./routes/foodRouter'));
 app.use('/api/dininghall', require('./routes/diningHallRouter'));
 app.use('/api/menu', require('./routes/menuRouter'));
 app.use('/api/search', require('./routes/searchRouter'));
+app.use('/api/review', require('./routes/reviewRouter'));
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);

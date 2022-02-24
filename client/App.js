@@ -20,6 +20,7 @@ import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 // import HomeScreen from './src/screens/HomeScreen';
 import MenuScreen from './src/screens/MenuScreen';
+import FoodDetailScreen from './src/screens/FoodDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ const Navigator = () => {
         <Stack.Navigator initialRouteName="menu">
           {/* <Stack.Screen name="home" component={HomeScreen} /> */}
           <Stack.Screen name="menu" component={MenuScreen} />
+          <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
           {/* <Stack.Screen name="login" component={SignInScreen} /> */}
           {/* <Stack.Screen name="register" component={SignUpScreen} /> */}
         </Stack.Navigator>
