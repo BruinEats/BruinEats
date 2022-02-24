@@ -17,3 +17,15 @@ module.exports.addUsrReview = async (req, res, next) => {
     res.status(500).json(error);
   }
 };
+
+module.exports.getUsrReview = async (req, res) => {
+  try {
+    const { _id } = req.params;
+
+    const review = await ReviewModel.findById(_id);
+
+    res.status(200).json({ review });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
