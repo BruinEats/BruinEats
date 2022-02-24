@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import tw from 'tailwind-react-native-classnames';
 import React from 'react';
+import { ApplicationProvider, Layout, Text, useTheme } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -17,7 +18,8 @@ import Spinner from './components/global/Spinner';
 
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
-import HomeScreen from './src/screens/HomeScreen';
+// import HomeScreen from './src/screens/HomeScreen';
+import MenuScreen from './src/screens/MenuScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,13 +43,16 @@ const Navigator = () => {
     }
   }, []);
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
-        {/* <Stack.Screen name="home" component={HomeScreen} /> */}
-        <Stack.Screen name="login" component={SignInScreen} />
-        <Stack.Screen name="register" component={SignUpScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="menu">
+          {/* <Stack.Screen name="home" component={HomeScreen} /> */}
+          <Stack.Screen name="menu" component={MenuScreen} />
+          {/* <Stack.Screen name="login" component={SignInScreen} /> */}
+          {/* <Stack.Screen name="register" component={SignUpScreen} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApplicationProvider>
   );
 };
 
