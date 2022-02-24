@@ -22,5 +22,6 @@
         "react-native"
     ],
     "rules": {
+        "semi": [2, "always"]
     }
 }

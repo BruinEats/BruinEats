@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const puppeteer = require('puppeteer');
 const FoodModel = require('../models/food');
 const DiningHallModel = require('../models/diningHall');
+const ReviewModel = require('../models/review');
 
 const diningHalls = [
   {
@@ -159,7 +160,7 @@ module.exports.removeFood = async (req, res) => {
 
 module.exports.insertFoodReview = async (req, res) => {
   try {
-    const { newReviewId } = req.body;
+    const newReview = req.body;
     const { _id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(_id)) {
@@ -168,10 +169,11 @@ module.exports.insertFoodReview = async (req, res) => {
       });
     }
 
+    const review = new ReviewModel(newReview);
+    await review.save();
+
     const food = await FoodModel.findOne({ _id });
-
-    // TODO: insert review id
-
+    food.reviews.push(review._id);
     await food.save();
 
     res.status(200).json({ food });
@@ -191,11 +193,36 @@ module.exports.removeFoodReview = async (req, res) => {
     }
 
     const food = await FoodModel.findOne({ _id });
-
-    // TODO: Remove review id
-
+    food.reviews = food.reviews.filter(
+      (reviewId) => String(reviewId) !== String(reviewIdToRemove)
+    );
     await food.save();
 
+    await ReviewModel.findByIdAndDelete(reviewIdToRemove);
+
+    res.status(200).json({ food });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
+module.exports.addFoodRating = async (req, res) => {
+  try {
+    const { rating } = req.body;
+    const { _id } = req.params;
+
+    const food = await FoodModel.findById(_id);
+
+    if (food.numRated !== null && food.rating !== null) {
+      food.rating =
+        (food.rating * food.numRated + rating) / (food.numRated + 1);
+      food.numRated += 1;
+    } else {
+      food.rating = rating;
+      food.numRated = 1;
+    }
+
+    await food.save();
     res.status(200).json({ food });
   } catch (error) {
     res.status(500).json({ error });

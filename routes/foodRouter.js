@@ -7,6 +7,7 @@ const {
   removeFood,
   insertFoodReview,
   removeFoodReview,
+  addFoodRating,
 } = require('../controllers/foodController');
 const {
   verifyAuthentication,
@@ -25,10 +26,12 @@ foodRouter.get('/:_id', getFoodDetailById);
 foodRouter.delete('/:_id', verifyAuthentication, verifyAdmin, removeFood);
 
 foodRouter.post('/:_id/add_review', verifyAuthentication, insertFoodReview);
-foodRouter.post(
-  '/:_id/:reviewIdToRemove/remove',
+foodRouter.delete(
+  '/:_id/:reviewIdToRemove',
   verifyAuthentication,
   removeFoodReview
 );
+
+foodRouter.post('/:_id/add_rating', verifyAuthentication, addFoodRating);
 
 module.exports = foodRouter;
