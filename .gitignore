@@ -2,4 +2,6 @@ node_modules
 .DS_Store
 package-lock.json
 yarn.lock
+client/package-lock.json
+client/yarn.lock
 client/.expo/web/
