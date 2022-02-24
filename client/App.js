@@ -18,6 +18,7 @@ import Spinner from './components/global/Spinner';
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import HomeScreen from './src/screens/HomeScreen';
+import FoodDetailScreen from './src/screens/FoodDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,8 +43,9 @@ const Navigator = () => {
   }, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
+      <Stack.Navigator initialRouteName="foodDetail">
         {/* <Stack.Screen name="home" component={HomeScreen} /> */}
+        <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
         <Stack.Screen name="login" component={SignInScreen} />
         <Stack.Screen name="register" component={SignUpScreen} />
       </Stack.Navigator>
