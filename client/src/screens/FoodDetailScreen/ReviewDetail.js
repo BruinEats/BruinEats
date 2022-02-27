@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import axios from 'axios';
 import { Text, Card, Rating } from 'react-native-elements';
 
 const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
 
   const getReviewDetail = async () => {
-    try {
-      const res = await (
-        await axios.get(`http://localhost:5000/api/review/${reviewId}`)
-      ).data.review;
-
-      setReviewDetail(res);
-      console.warn(res);
-    } catch (error) {
-      console.warn(error);
-    }
+    fetch(`http://192.168.244.1:5000/api/review/${reviewId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const res = data.review;
+        setReviewDetail(res);
+      })
+      .catch((error) => console.warn(error));
   };
 
   useEffect(getReviewDetail, []);
