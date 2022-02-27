@@ -21,6 +21,7 @@ import SignUpScreen from './src/screens/SignUpScreen';
 // import HomeScreen from './src/screens/HomeScreen';
 import MenuScreen from './src/screens/MenuScreen';
 import FoodDetailScreen from './src/screens/FoodDetailScreen';
+import AddReviewScreen from './src/screens/AddReviewScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,10 +47,11 @@ const Navigator = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="menu">
+        <Stack.Navigator initialRouteName="foodDetail">
           {/* <Stack.Screen name="home" component={HomeScreen} /> */}
           <Stack.Screen name="menu" component={MenuScreen} />
           <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
+          <Stack.Screen name="addReview" component={AddReviewScreen} />
           {/* <Stack.Screen name="login" component={SignInScreen} /> */}
           {/* <Stack.Screen name="register" component={SignUpScreen} /> */}
         </Stack.Navigator>

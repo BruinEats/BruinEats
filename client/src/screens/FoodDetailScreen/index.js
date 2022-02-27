@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import axios from 'axios';
 import { Text, Card, Rating } from 'react-native-elements';
 
 import CustomButton from '../../components/CustomButton';
-
 import ReviewDetail from './ReviewDetail';
 
-const FoodDetailScreen = ({ foodId = '620107ce122592b88a203a9a' }) => {
+const FoodDetailScreen = ({ navigation, foodId = '620107ce122592b88a203a9a' }) => {
   const [foodDetail, setFoodDetail] = useState({});
 
   const fetchFood = async () => {
-    try {
-      const newFood = await (await axios.get(`http://localhost:5000/api/food/${foodId}`)).data.food;
-      setFoodDetail(newFood);
-      console.warn(newFood);
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-
-  const addReview = () => {
-    console.warn('Add Review');
+    fetch(`http://192.168.244.1:5000/api/food/${foodId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const newFood = data.food;
+        setFoodDetail(newFood);
+      })
+      .catch((error) => console.warn(error));
   };
 
   useEffect(fetchFood, []);
 
   return (
-    <View>
+    <ScrollView>
       <Card>
         <Card.Title>Images</Card.Title>
       </Card>
@@ -81,12 +75,12 @@ const FoodDetailScreen = ({ foodId = '620107ce122592b88a203a9a' }) => {
       <View style={styles.addReviewArea}>
         <CustomButton
           style={styles.addReviewBtn}
-          onPress={addReview}
+          onPress={() => navigation.navigate('addReview', { foodId })}
           text="Add Review"
           type="Primary"
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
