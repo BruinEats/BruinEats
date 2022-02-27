@@ -5,25 +5,30 @@ const DiningHallModel = require('../models/diningHall');
 
 module.exports.searchFoodName = async (req, res) => {
   try {
-    const { foodName } = req.body;
-
-    const { diningHallName } = req.query;
+    const { foodName, diningHallName } = req.body;
 
     const regexp = new RegExp(`.*${foodName || ''}.*`, 'i');
     const filteredFood = await FoodModel.find({ name: regexp });
 
-    res.status(200).json({
-      food: filteredFood
-        .filter((food) => {
-          return food.diningHall === diningHallName;
-        })
-        .map((food) => ({
+    if (!diningHallName || diningHallName === 'ALL') {
+      res.status(200).json({
+        food: filteredFood.map((food) => ({
           name: food.name,
           id: food._id,
-
           rating: food.rating,
         })),
-    });
+      });
+    } else {
+      res.status(200).json({
+        food: filteredFood
+          .filter((food) => food.diningHall === diningHallName)
+          .map((food) => ({
+            name: food.name,
+            id: food._id,
+            rating: food.rating,
+          })),
+      });
+    }
   } catch (error) {
     res.status(500).json({ error });
   }
