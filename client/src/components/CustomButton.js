@@ -6,12 +6,12 @@ const CustomButton = ({ onPress, text, type, bgColor, text_type }) => {
   return (
     <Pressable
       onPress={onPress}
-      style={[tw`bg-${bgColor}`, styles.container, styles[`container_${type}`]]}
+      style={[styles.container, styles[`container_${type}`]]}
     >
       <Text
         style={[
           styles.text,
-          tw.style('text-slate-600'),
+          // tw.style('text-slate-600'),
           // text_type == 'Tertiary' ? 'text-slate-600' : ''),
         ]}
       >
