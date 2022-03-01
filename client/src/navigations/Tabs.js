@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
 import SignInScreen from '../screens/SignInScreen/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 // import HomeScreen from '../screens/HomeScreen';
@@ -17,18 +16,40 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   return (
-    <Tab.Navigator initialRouteName = "menu">
-      <Tab.Screen name="login" component={SignInScreen} options={{
+    <Tab.Navigator initialRouteName="menu">
+      {/* <Tab.Screen name="login" component={SignInScreen} options={{
         tabBarIcon: (tabInfo) => (
                 <Ionicons name="home" size={18} color={tabInfo.tintColor} />
-              )}}/>
-      <Tab.Screen name="menu" component={MenuScreen} />
-      <Tab.Screen name="foodDetail" component={FoodDetailScreen} />
-      <Tab.Screen name="addReview" component={AddReviewScreen} />
-      <Tab.Screen name="diningHall" component={DiningHallDetail} />
-      <Tab.Screen name="register" component={SignUpScreen} />
+              )}}/> */}
+      <Tab.Screen
+        name="menu"
+        component={MenuScreen}
+        options={{
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="restaurant" size={18} color={tabInfo.tintColor} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="addReview"
+        component={AddReviewScreen}
+        options={{
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="add-circle-outline" size={18} color={tabInfo.tintColor} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="foodDetail"
+        component={FoodDetailScreen}
+        options={{
+          tabBarIcon: (tabInfo) => <Ionicons name="pizza" size={18} color={tabInfo.tintColor} />,
+        }}
+      />
+      {/* <Tab.Screen name="diningHall" component={DiningHallDetail} /> */}
+      {/* <Tab.Screen name="register" component={SignUpScreen} /> */}
     </Tab.Navigator>
   );
-}
+};
 
 export default Tabs;

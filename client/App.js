@@ -17,7 +17,6 @@ import setAuthToken from './utils/setAuthToken';
 import Spinner from './components/global/Spinner';
 import Tabs from './src/navigations/Tabs';
 
-
 const Stack = createNativeStackNavigator();
 
 const ReduxWrapper = () => {
@@ -42,7 +41,7 @@ const Navigator = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Tabs/>
+        <Tabs />
       </NavigationContainer>
     </ApplicationProvider>
   );
