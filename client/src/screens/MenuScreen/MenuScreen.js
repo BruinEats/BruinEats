@@ -24,6 +24,10 @@ const MenuScreen = ({ navigation }) => {
     console.warn(searchRef.current);
   };
 
+  const handleDiningHallCardPress = (newDiningHallId) => {
+    navigation.navigate('diningHall', { diningHallId: newDiningHallId });
+  };
+
   useEffect(async () => {
     fetch(rootUrl + `/dininghall/all`)
       .then((response) => response.json())
@@ -75,33 +79,39 @@ const MenuScreen = ({ navigation }) => {
           );
         })} */}
 
-        <TouchableOpacity
-          style={styles.diningHallCard}
-          onPress={() =>
-            navigation.navigate('diningHall', { diningHallId: '6201065115fcccb7b530545b' })
-          }
-        >
-          <CustomCard
-            text="The Study At Hedrick"
-            url="http://menu.dining.ucla.edu/Content/Images/Menus/HedrickStudy/hedrickstudy-logo.png"
-          ></CustomCard>
-        </TouchableOpacity>
+        <CustomCard
+          text="The Study At Hedrick"
+          url="http://menu.dining.ucla.edu/Content/Images/Menus/HedrickStudy/hedrickstudy-logo.png"
+          id="6201065115fcccb7b530545b"
+          handleOnPress={handleDiningHallCardPress}
+        ></CustomCard>
 
         <CustomCard
           text="Rendezvous"
           url="https://menu.dining.ucla.edu/Content/Images/Menus/Rendezvous/rendezvous-logo.png"
+          id="62010145877028b32701c9fc"
+          handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
+
         <CustomCard
           text="The Drey"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/Drey/drey-logo.png"
+          id="62010159877028b32701ca02"
+          handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
+
         <CustomCard
           text="Bruin Cafe"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/BruinCafe/bruincafe-logo.png"
+          id="62010161877028b32701ca05"
+          handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
+
         <CustomCard
           text="Feast"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/FeastSpiceKitchen/feastspicekitchen-logo.png?rev=2021-10-26b"
+          id="62010152877028b32701c9ff"
+          handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
       </ScrollView>
       {/* {diningHalls.map((diningHall) => {
