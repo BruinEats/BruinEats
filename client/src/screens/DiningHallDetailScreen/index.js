@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
+import { Divider, List, ListItem } from '@ui-kitten/components';
 import { rootUrl } from '../../env';
 
 import DiningHallFoodCard from './DiningHallFoodCard';
