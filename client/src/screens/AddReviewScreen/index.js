@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card } from 'react-native-elements';
 import { Button, Input } from '@ui-kitten/components';
 
-import CustomButton from '../../components/CustomButton';
+import { rootUrl } from '../../env';
 
 const AddReviewScreen = ({ route, navigation }) => {
   const { foodId } = route.params;
@@ -12,7 +12,7 @@ const AddReviewScreen = ({ route, navigation }) => {
   const [rating, setRating] = useState(2.5);
 
   const fetchFood = async () => {
-    fetch(`http://192.168.244.1:5000/api/food/${foodId}`)
+    fetch(rootUrl + `/food/${foodId}`)
       .then((response) => response.json())
       .then((data) => {
         const newFood = data.food;
@@ -46,7 +46,7 @@ const AddReviewScreen = ({ route, navigation }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDU5MjMxMDcsImV4cCI6MTY0NTkyNjcwN30.b1Y0DkLbTxI9cIkZPeNUKdzsNv-AYyiupNSIIeGL9E8`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYxMDc5ODQsImV4cCI6MTY0NjExMTU4NH0.RUpQdoVfJKq-6-VlFSjEDlCYb3m6CKhhpHRnS1iw1Jo`,
       },
       body: JSON.stringify(data),
     })

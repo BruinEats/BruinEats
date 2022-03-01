@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable node/no-unsupported-features/es-syntax */
@@ -30,6 +31,7 @@ module.exports.getAllDiningHall = async (req, res) => {
 
     res.status(200).json({
       allDiningHalls: allDiningHalls.map((diningHall) => ({
+        id: diningHall._id,
         name: diningHall.name,
       })),
     });
@@ -42,10 +44,6 @@ module.exports.getAllDiningHallDetails = async (req, res) => {
   try {
     const { _id } = req.params;
     const diningHallDetails = await DiningHallModel.findOne({ _id });
-    // TOOD: Limit page display number
-    // .limit(20)
-    // .skip((page - 1) * 20)
-    // .exec();
 
     res.status(200).json({
       diningHallDetails,

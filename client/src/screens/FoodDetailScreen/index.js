@@ -5,11 +5,14 @@ import { Text, Card, Rating } from 'react-native-elements';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
-const FoodDetailScreen = ({ navigation, foodId = '620107ce122592b88a203a9a' }) => {
+import { rootUrl } from '../../env';
+
+const FoodDetailScreen = ({ route, navigation }) => {
+  const { foodId } = route.params;
   const [foodDetail, setFoodDetail] = useState({});
 
   const fetchFood = async () => {
-    fetch(`http://192.168.244.1:5000/api/food/${foodId}`)
+    fetch(rootUrl + `/food/${foodId}`)
       .then((response) => response.json())
       .then((data) => {
         const newFood = data.food;

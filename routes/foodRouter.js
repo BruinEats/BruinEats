@@ -2,6 +2,7 @@ const express = require('express');
 const {
   scrap,
   getAllFood,
+  getFoodNameById,
   getFoodDetailById,
   addFood,
   removeFood,
@@ -22,6 +23,7 @@ foodRouter.get('/all/:page', getAllFood);
 
 foodRouter.post('/add_food', verifyAuthentication, verifyAdmin, addFood);
 
+foodRouter.get('/name/:_id', getFoodNameById);
 foodRouter.get('/:_id', getFoodDetailById);
 foodRouter.delete('/:_id', verifyAuthentication, verifyAdmin, removeFood);
 

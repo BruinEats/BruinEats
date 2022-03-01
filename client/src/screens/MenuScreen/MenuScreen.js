@@ -1,7 +1,8 @@
-import { View, Image, ScrollView } from 'react-native';
-import React from 'react';
+import { View, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
 import tw from 'tailwind-react-native-classnames';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import { Button, Input } from '@ui-kitten/components';
 import {
   Card,
   CardTitle,
@@ -10,32 +11,39 @@ import {
   CardButton,
   CardImage,
 } from 'react-native-cards';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 import CustomCard from '../../components/CustomCard';
 
+import { rootUrl } from '../../env';
+
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
-  // useEffect(async () => {
-  //   const res = await axios.get('/api/diningHall/all');
-  //   console.log(res.data);
-  //   setDiningHalls(res.data);
-  // }, []);
+  const searchRef = useRef(null);
+
+  const handleSearchInput = async () => {
+    console.warn(searchRef.current);
+  };
 
   useEffect(async () => {
-    const res = await axios.get('/api/dininghall/all');
-    setDiningHalls(res.data);
-    console.log(res.data);
+    fetch(rootUrl + `/dininghall/all`)
+      .then((response) => response.json())
+      .then((data) => {
+        const allDiningHall = data.allDiningHalls;
+        setDiningHalls(allDiningHall);
+      })
+      .catch((error) => console.warn(error));
   }, []);
 
   return (
     <View style={tw`flex-1`}>
       <AutocompleteDropdown
-        dataSet={[
-          { id: '1', title: 'Epicuria' },
-          { id: '2', title: 'B Cafe' },
-          { id: '3', title: 'De Neve' },
-        ]}
+        dataSet={diningHalls.map((diningHall) => {
+          return {
+            id: diningHall._id,
+            title: diningHall.name,
+          };
+        })}
+        ref={searchRef}
         textInputProps={{
           placeholder: 'Search for food or dininghall here',
           placeholderTextColor: '#AEAEAE',
@@ -49,6 +57,9 @@ const MenuScreen = ({ navigation }) => {
           },
         }}
       ></AutocompleteDropdown>
+      <Button style={styles.menuSearchBar} onPress={handleSearchInput}>
+        Search
+      </Button>
       <ScrollView
         style={tw`mx-0.5`}
         suggestionsListContainerStyle={{
@@ -63,10 +74,19 @@ const MenuScreen = ({ navigation }) => {
             ></CustomCard>
           );
         })} */}
-        <CustomCard
-          text="The Study At Hedrick"
-          url="http://menu.dining.ucla.edu/Content/Images/Menus/HedrickStudy/hedrickstudy-logo.png"
-        ></CustomCard>
+
+        <TouchableOpacity
+          style={styles.diningHallCard}
+          onPress={() =>
+            navigation.navigate('diningHall', { diningHallId: '6201065115fcccb7b530545b' })
+          }
+        >
+          <CustomCard
+            text="The Study At Hedrick"
+            url="http://menu.dining.ucla.edu/Content/Images/Menus/HedrickStudy/hedrickstudy-logo.png"
+          ></CustomCard>
+        </TouchableOpacity>
+
         <CustomCard
           text="Rendezvous"
           url="https://menu.dining.ucla.edu/Content/Images/Menus/Rendezvous/rendezvous-logo.png"
@@ -90,5 +110,16 @@ const MenuScreen = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  menuSearchBar: {
+    marginTop: 5,
+  },
+  diningHallCard: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+  },
+});
 
 export default MenuScreen;
