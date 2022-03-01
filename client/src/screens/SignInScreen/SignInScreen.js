@@ -22,7 +22,6 @@ const SignInScreen = ({ navigation }) => {
   return (
     // <ScrollView>
     <View style={styles.root}>
-      {/* TODO: define image style with tailwinCSS */}
 
       <CustomInput placeholder="username" value={username} setValue={setUsername} />
       <CustomInput
@@ -52,9 +51,10 @@ const SignInScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
-    padding: 50,
+    padding: 10,
     width: '100%',
-    height: '60%',
+    height: '100%',
+    // justifyContent: 'center',
   },
   // logo: {
   //   width: 40,

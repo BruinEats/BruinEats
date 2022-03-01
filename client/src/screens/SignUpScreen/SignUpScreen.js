@@ -73,7 +73,7 @@ const SignUpScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   root: {
     // alignItems: 'center',
-    padding: 50,
+    padding: 10,
     width: '100%',
     height: '60%',
   },
