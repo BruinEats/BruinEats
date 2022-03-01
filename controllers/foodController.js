@@ -112,6 +112,27 @@ module.exports.getAllFood = async (req, res) => {
   }
 };
 
+module.exports.getFoodNameById = async (req, res) => {
+  const { _id } = req.params;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+      return res.status(404).json({
+        error: 'No food with the given id',
+      });
+    }
+
+    const food = await FoodModel.findOne({ _id });
+
+    res.status(200).json({
+      id: food._id,
+      name: food.name,
+      rating: food.rating,
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
 module.exports.getFoodDetailById = async (req, res) => {
   const { _id } = req.params;
   try {

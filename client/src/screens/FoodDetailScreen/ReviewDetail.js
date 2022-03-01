@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 
+import { rootUrl } from '../../env';
+
 const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
 
   const getReviewDetail = async () => {
-    fetch(`http://192.168.244.1:5000/api/review/${reviewId}`)
+    fetch(rootUrl + `/review/${reviewId}`)
       .then((response) => response.json())
       .then((data) => {
         const res = data.review;
