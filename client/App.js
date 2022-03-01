@@ -15,14 +15,8 @@ import { loadUser } from './slices/userSlice';
 import setAuthToken from './utils/setAuthToken';
 
 import Spinner from './components/global/Spinner';
+import Tabs from './src/navigations/Tabs';
 
-import SignInScreen from './src/screens/SignInScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-// import HomeScreen from './src/screens/HomeScreen';
-import MenuScreen from './src/screens/MenuScreen';
-import FoodDetailScreen from './src/screens/FoodDetailScreen';
-import AddReviewScreen from './src/screens/AddReviewScreen';
-import DiningHallDetail from './src/screens/DiningHallDetailScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,15 +42,7 @@ const Navigator = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="menu">
-          {/* <Stack.Screen name="home" component={HomeScreen} /> */}
-          <Stack.Screen name="menu" component={MenuScreen} />
-          <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
-          <Stack.Screen name="addReview" component={AddReviewScreen} />
-          <Stack.Screen name="diningHall" component={DiningHallDetail} />
-          {/* <Stack.Screen name="login" component={SignInScreen} /> */}
-          {/* <Stack.Screen name="register" component={SignUpScreen} /> */}
-        </Stack.Navigator>
+        <Tabs/>
       </NavigationContainer>
     </ApplicationProvider>
   );
