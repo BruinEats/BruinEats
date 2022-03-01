@@ -57,6 +57,22 @@ const AddReviewScreen = ({ route, navigation }) => {
       .catch((error) => {
         console.warn('Error:', error);
       });
+
+    fetch(`http://192.168.244.1:5000/api/food/${foodId}/add_rating`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYxMDc5ODQsImV4cCI6MTY0NjExMTU4NH0.RUpQdoVfJKq-6-VlFSjEDlCYb3m6CKhhpHRnS1iw1Jo`,
+      },
+      body: JSON.stringify({ rating }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.warn('Success:', data);
+      })
+      .catch((error) => {
+        console.warn('Error:', error);
+      });
   };
 
   if (foodDetail === {}) {
