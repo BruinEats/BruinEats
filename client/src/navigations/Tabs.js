@@ -9,6 +9,7 @@ import MenuScreen from '../screens/MenuScreen';
 import FoodDetailScreen from '../screens/FoodDetailScreen';
 import AddReviewScreen from '../screens/AddReviewScreen';
 import DiningHallDetail from '../screens/DiningHallDetailScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -46,7 +47,8 @@ const Tabs = () => {
           tabBarIcon: (tabInfo) => <Ionicons name="pizza" size={18} color={tabInfo.tintColor} />,
         }}
       />
-      {/* <Tab.Screen name="diningHall" component={DiningHallDetail} /> */}
+      <Tab.Screen name="diningHall" component={DiningHallDetail} />
+      <Tab.Screen name="search" component={SearchScreen} />
       {/* <Tab.Screen name="register" component={SignUpScreen} /> */}
     </Tab.Navigator>
   );
