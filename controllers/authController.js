@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const jwtSecretKey = require('../config/default.json').jwtSecret;
+require("dotenv").config();
 const UserModel = require('../models/user');
 
 module.exports.verifyAuthentication = async (req, res, next) => {
@@ -8,7 +8,7 @@ module.exports.verifyAuthentication = async (req, res, next) => {
   if (authHeader) {
     const token = authHeader.split(' ')[1];
 
-    jwt.verify(token, jwtSecretKey, (err, user) => {
+    jwt.verify(token, process.env.jwtSecret, (err, user) => {
       if (err) {
         res.status(403).json({ message: 'Authentication Failed' });
       } else {

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const jwtSecretKey = require('../config/default.json').jwtSecret;
+require('dotenv').config();
 const UserModel = require('../models/user');
 
 module.exports.register = async (req, res) => {
@@ -56,9 +56,13 @@ module.exports.signin = async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ email, id: signinUser._id }, jwtSecretKey, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign(
+      { email, id: signinUser._id },
+      process.env.jwtSecret,
+      {
+        expiresIn: '1h',
+      }
+    );
 
     res.status(200).json({ token: token });
   } catch (error) {
