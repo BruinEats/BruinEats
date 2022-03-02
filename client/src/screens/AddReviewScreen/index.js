@@ -6,7 +6,7 @@ import { Button, Input } from '@ui-kitten/components';
 import { rootUrl } from '../../env';
 
 const AddReviewScreen = ({ route, navigation }) => {
-  const { foodId } = route.params;
+  const { foodId } = route.params ? route.params : '';
   const [foodDetail, setFoodDetail] = useState({});
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(2.5);
