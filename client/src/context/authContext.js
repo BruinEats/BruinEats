@@ -38,9 +38,10 @@ export const AuthProvider = ({ children }) => {
 
   // set axios x-auth-token header and update reducer state if token exists in localStorage
   useEffect(async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
+    const token = await AsyncStorage.getItem('token');
+    setAuthToken(token);
 
+    if (token) {
       const res = await axios.get('/api/user/info');
       console.log(res.data);
 
@@ -51,7 +52,7 @@ export const AuthProvider = ({ children }) => {
         },
       });
     }
-  }, [localStorage.token]);
+  }, []);
 
   const logIn = async (email, password) => {
     const config = {
@@ -121,4 +122,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthContext
+export default AuthContext;
