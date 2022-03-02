@@ -17,6 +17,12 @@ module.exports.register = async (req, res) => {
       return;
     }
 
+    const uclaEmailRegex = /^[A-Za-z0-9._%+-]+@(g.)?ucla.edu/g;
+    if (!email.match(uclaEmailRegex)) {
+      res.status(400).json({ message: 'You must register with an ucla email' });
+      return;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = await UserModel.create({
       email,
