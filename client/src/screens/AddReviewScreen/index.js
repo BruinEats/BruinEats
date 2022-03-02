@@ -6,13 +6,14 @@ import axios from 'axios';
 import rootUrl from '../../utils/rootUrl';
 
 const AddReviewScreen = ({ route, navigation }) => {
-  const { foodId } = route.params ? route.params : '';
+  const foodId = route.params ? route.params.foodId : '620107ce122592b88a203a9a';
   const [foodDetail, setFoodDetail] = useState({});
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(2.5);
 
   const fetchFood = async () => {
     try {
+      console.log(`${rootUrl}/api/food/${foodId}`)
       const res = await axios.get(`${rootUrl}/api/food/${foodId}`);
       setFoodDetail(res.data.food);
     } catch (err) {
@@ -50,6 +51,8 @@ const AddReviewScreen = ({ route, navigation }) => {
     const ratingBody = JSON.stringify({ rating });
 
     try {
+      console.log(reviewBody)
+      console.log(`${rootUrl}/api/food/${foodId}/add_review`)
       const res = await axios.post(`${rootUrl}/api/food/${foodId}/add_review`, reviewBody, config);
       console.log(res.data);
     } catch (err) {

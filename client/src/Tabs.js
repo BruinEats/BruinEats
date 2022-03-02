@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import SignInScreen from '../screens/SignInScreen/SignInScreen';
-import SignUpScreen from '../screens/SignUpScreen';
+import SignInScreen from './screens/SignInScreen/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
 // import HomeScreen from '../screens/HomeScreen';
-import MenuScreen from '../screens/MenuScreen';
-import FoodDetailScreen from '../screens/FoodDetailScreen';
-import AddReviewScreen from '../screens/AddReviewScreen';
-import DiningHallDetail from '../screens/DiningHallDetailScreen';
+import MenuScreen from './screens/MenuScreen';
+import FoodDetailScreen from './screens/FoodDetailScreen';
+import AddReviewScreen from './screens/AddReviewScreen';
+import DiningHallDetail from './screens/DiningHallDetailScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -16,11 +16,14 @@ const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   return (
-    <Tab.Navigator initialRouteName="menu">
-      {/* <Tab.Screen name="login" component={SignInScreen} options={{
-        tabBarIcon: (tabInfo) => (
-                <Ionicons name="home" size={18} color={tabInfo.tintColor} />
-              )}}/> */}
+    <Tab.Navigator initialRouteName="login">
+      <Tab.Screen
+        name="login"
+        component={SignInScreen}
+        options={{
+          tabBarIcon: (tabInfo) => <Ionicons name="home" size={18} color={tabInfo.tintColor} />,
+        }}
+      />
       <Tab.Screen
         name="menu"
         component={MenuScreen}
@@ -47,7 +50,7 @@ const Tabs = () => {
         }}
       />
       {/* <Tab.Screen name="diningHall" component={DiningHallDetail} /> */}
-      {/* <Tab.Screen name="register" component={SignUpScreen} /> */}
+      <Tab.Screen name="register" component={SignUpScreen} />
     </Tab.Navigator>
   );
 };

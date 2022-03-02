@@ -4,9 +4,9 @@ import * as eva from '@eva-design/eva';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Tabs from './navigations/Tabs';
+import Tabs from './Tabs';
 
-import { AuthProvider } from './context/authContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 const AppNavigation = () => {
   return (
