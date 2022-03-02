@@ -10,16 +10,26 @@ const DiningHallDetail = ({ route, navigation }) => {
   const { diningHallId } = route.params;
   const [diningHallDetail, setDiningHallDetail] = useState({});
 
+  console.warn(diningHallId);
+
   const fetchDiningHallDetail = async () => {
-    try {
-      const res = await axios.get(`/api/diningHall/${diningHallId}`);
-      setDiningHallDetail(res.data.diningHallDetails);
-    } catch (err) {
-      console.error(err.message);
-    }
+    // try {
+    //   const res = await axios.get(`/api/diningHall/${diningHallId}`);
+    //   setDiningHallDetail(res.data.diningHallDetails);
+    // } catch (err) {
+    //   console.error(err.message);
+    // }
+
+    fetch(`http://192.168.112.1:5000/api/dininghall/${diningHallId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const newDininghall = data.diningHallDetails;
+        setDiningHallDetail(newDininghall);
+      })
+      .catch((error) => console.warn(error));
   };
 
-  useEffect(fetchDiningHallDetail, []);
+  useEffect(fetchDiningHallDetail, [diningHallId]);
 
   if (diningHallDetail === undefined) {
     return <Text>Loading...</Text>;

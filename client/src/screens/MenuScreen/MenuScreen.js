@@ -2,24 +2,18 @@ import { View, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
 import tw from 'tailwind-react-native-classnames';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
-import { Button, Input } from '@ui-kitten/components';
-import {
-  Card,
-  CardTitle,
-  CardContent,
-  CardAction,
-  CardButton,
-  CardImage,
-} from 'react-native-cards';
+import { Button, Input, IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 import axios from 'axios';
 import CustomCard from '../../components/CustomCard';
 
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
+  const [searchSelectedIndex, setSearchSelectedIndex] = React.useState(new IndexPath(0));
+  const [searchInput, setSearchInput] = useState('');
   const searchRef = useRef(null);
 
   const handleSearchInput = async () => {
-    console.warn(searchRef.current);
+    navigation.navigate('search', { searchInput, searchId: searchSelectedIndex });
   };
 
   const handleDiningHallCardPress = (newDiningHallId) => {
@@ -37,7 +31,7 @@ const MenuScreen = ({ navigation }) => {
 
   return (
     <View style={tw`flex-1`}>
-      <AutocompleteDropdown
+      {/* <AutocompleteDropdown
         dataSet={diningHalls.map((diningHall) => {
           return {
             id: diningHall._id,
@@ -57,7 +51,24 @@ const MenuScreen = ({ navigation }) => {
             paddingLeft: 15,
           },
         }}
-      ></AutocompleteDropdown>
+      ></AutocompleteDropdown> */}
+
+      <Layout level="1">
+        <Select
+          selectedIndex={searchSelectedIndex}
+          onSelect={(index) => setSearchSelectedIndex(index)}
+          value={searchSelectedIndex.row === 0 ? 'Search For Food' : 'Search For Dining Hall'}
+          style={styles.searchHeader}
+        >
+          <SelectItem title="Search For Food" />
+          <SelectItem title="Search For Dining Hall" />
+        </Select>
+      </Layout>
+      <Input
+        placeholder="Search Input"
+        value={searchInput}
+        onChangeText={(nextValue) => setSearchInput(nextValue)}
+      />
       <Button style={styles.menuSearchBar} onPress={handleSearchInput}>
         Search
       </Button>
@@ -126,6 +137,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#DDDDDD',
     padding: 10,
+  },
+  searchHeader: {
+    fontWeight: 'bold',
   },
 });
 
