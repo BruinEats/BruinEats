@@ -5,20 +5,19 @@ import { Text, Card, Rating } from 'react-native-elements';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
-import { rootUrl } from '../../env';
+import axios from 'axios';
 
 const FoodDetailScreen = ({ route, navigation }) => {
   const { foodId } = route.params;
   const [foodDetail, setFoodDetail] = useState({});
 
   const fetchFood = async () => {
-    fetch(rootUrl + `/food/${foodId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const newFood = data.food;
-        setFoodDetail(newFood);
-      })
-      .catch((error) => console.warn(error));
+    try {
+      const res = await axios.get(`/api/food/${foodId}`);
+      setFoodDetail(res.data.food);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(fetchFood, []);

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card } from 'react-native-elements';
 import { Button, Input } from '@ui-kitten/components';
-
-import { rootUrl } from '../../env';
+import axios from 'axios';
 
 const AddReviewScreen = ({ route, navigation }) => {
   const { foodId } = route.params ? route.params : '';
@@ -12,13 +11,12 @@ const AddReviewScreen = ({ route, navigation }) => {
   const [rating, setRating] = useState(2.5);
 
   const fetchFood = async () => {
-    fetch(rootUrl + `/food/${foodId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const newFood = data.food;
-        setFoodDetail(newFood);
-      })
-      .catch((error) => console.warn(error));
+    try {
+      const res = await axios.get(`/api/food/${foodId}`);
+      setFoodDetail(res.data.food);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(fetchFood, []);
@@ -42,37 +40,27 @@ const AddReviewScreen = ({ route, navigation }) => {
   const handleReviewSubmit = async () => {
     const data = { score: rating, comment, food: foodId, user: 'test@gmail.com' };
 
-    fetch(`http://192.168.244.1:5000/api/food/${foodId}/add_review`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYxMDc5ODQsImV4cCI6MTY0NjExMTU4NH0.RUpQdoVfJKq-6-VlFSjEDlCYb3m6CKhhpHRnS1iw1Jo`,
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.warn('Success:', data);
-      })
-      .catch((error) => {
-        console.warn('Error:', error);
-      });
+    const config = {
+      'Content-Type': 'application/json',
+      // TODO: add token in context
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYxMDc5ODQsImV4cCI6MTY0NjExMTU4NH0.RUpQdoVfJKq-6-VlFSjEDlCYb3m6CKhhpHRnS1iw1Jo`,
+    };
+    const reviewBody = JSON.stringify(data);
+    const ratingBody = JSON.stringify({ rating });
 
-    fetch(`http://192.168.244.1:5000/api/food/${foodId}/add_rating`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYxMDc5ODQsImV4cCI6MTY0NjExMTU4NH0.RUpQdoVfJKq-6-VlFSjEDlCYb3m6CKhhpHRnS1iw1Jo`,
-      },
-      body: JSON.stringify({ rating }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.warn('Success:', data);
-      })
-      .catch((error) => {
-        console.warn('Error:', error);
-      });
+    try {
+      const res = await axios.post(`/api/food/${foodId}/add_review`, config, reviewBody);
+      console.log(res.data);
+    } catch (err) {
+      console.error(err.message);
+    }
+
+    try {
+      const res = await axios.post(`/api/food/${foodId}/add_rating`, config, ratingBody);
+      console.log(res.data);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   if (foodDetail === {}) {

@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
-
-import { rootUrl } from '../../env';
+import axios from 'axios';
 
 const ReviewDetail = ({ foodId, navigation }) => {
   const [foodName, setFoodName] = useState('');
   const [foodRating, setFoodRating] = useState(3.0);
 
   const getFoodName = async () => {
-    fetch(rootUrl + `/food/name/${foodId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const name = data.name;
-        const rating = data.rating;
-
-        setFoodRating(rating);
-        setFoodName(name);
-      })
-      .catch((error) => console.warn(error));
+    try {
+      const res = await axios.get(`/api/food/name/${foodId}`);
+      setFoodName(res.data.food);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(getFoodName, []);

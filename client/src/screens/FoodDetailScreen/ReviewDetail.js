@@ -8,13 +8,12 @@ const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
 
   const getReviewDetail = async () => {
-    fetch(rootUrl + `/review/${reviewId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const res = data.review;
-        setReviewDetail(res);
-      })
-      .catch((error) => console.warn(error));
+    try {
+      const res = await axios.get(`/api/review/${reviewId}`);
+      setReviewDetail(res.data.review);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(getReviewDetail, []);

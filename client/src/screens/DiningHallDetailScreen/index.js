@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import { Divider, List, ListItem } from '@ui-kitten/components';
-import { rootUrl } from '../../env';
+import axios from 'axios';
 
 import DiningHallFoodCard from './DiningHallFoodCard';
 
@@ -11,13 +11,12 @@ const DiningHallDetail = ({ route, navigation }) => {
   const [diningHallDetail, setDiningHallDetail] = useState({});
 
   const fetchDiningHallDetail = async () => {
-    fetch(rootUrl + `/dininghall/${diningHallId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const newDininghall = data.diningHallDetails;
-        setDiningHallDetail(newDininghall);
-      })
-      .catch((error) => console.warn(error));
+    try {
+      const res = await axios.get(`/api/diningHall/${diningHallId}`);
+      setDiningHallDetail(res.data.diningHallDetails);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(fetchDiningHallDetail, []);
