@@ -5,6 +5,7 @@ import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import { Button, Input, IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
 import axios from 'axios';
 import CustomCard from '../../components/CustomCard';
+import rootUrl from '../../utils/rootUrl';
 
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
@@ -22,7 +23,7 @@ const MenuScreen = ({ navigation }) => {
 
   useEffect(async () => {
     try {
-      const res = await axios.get(`/api/diningHall/all`);
+      const res = await axios.get(`${rootUrl}/api/diningHall/all`);
       setDiningHalls(res.data.allDiningHalls);
     } catch (err) {
       console.error(err.message);

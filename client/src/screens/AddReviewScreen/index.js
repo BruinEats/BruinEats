@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card } from 'react-native-elements';
 import { Button, Input } from '@ui-kitten/components';
 import axios from 'axios';
+import rootUrl from '../../utils/rootUrl';
 
 const AddReviewScreen = ({ route, navigation }) => {
   const { foodId } = route.params ? route.params : '';
@@ -12,7 +13,7 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   const fetchFood = async () => {
     try {
-      const res = await axios.get(`/api/food/${foodId}`);
+      const res = await axios.get(`${rootUrl}/api/food/${foodId}`);
       setFoodDetail(res.data.food);
     } catch (err) {
       console.error(err.message);
@@ -49,14 +50,14 @@ const AddReviewScreen = ({ route, navigation }) => {
     const ratingBody = JSON.stringify({ rating });
 
     try {
-      const res = await axios.post(`/api/food/${foodId}/add_review`, reviewBody, config);
+      const res = await axios.post(`${rootUrl}/api/food/${foodId}/add_review`, reviewBody, config);
       console.log(res.data);
     } catch (err) {
       console.error(err.message);
     }
 
     try {
-      const res = await axios.post(`/api/food/${foodId}/add_rating`, ratingBody, config);
+      const res = await axios.post(`${rootUrl}/api/food/${foodId}/add_rating`, ratingBody, config);
       console.log(res.data);
     } catch (err) {
       console.error(err.message);
