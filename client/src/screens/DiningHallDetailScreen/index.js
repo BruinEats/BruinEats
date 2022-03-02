@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import { Divider, List, ListItem } from '@ui-kitten/components';
 import axios from 'axios';
+import rootUrl from '../../utils/rootUrl';
 
 import DiningHallFoodCard from './DiningHallFoodCard';
 
@@ -12,7 +13,7 @@ const DiningHallDetail = ({ route, navigation }) => {
 
   const fetchDiningHallDetail = async () => {
     try {
-      const res = await axios.get(`/api/diningHall/${diningHallId}`);
+      const res = await axios.get(`${rootUrl}/api/diningHall/${diningHallId}`);
       setDiningHallDetail(res.data.diningHallDetails);
     } catch (err) {
       console.error(err.message);

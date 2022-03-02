@@ -6,6 +6,7 @@ import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
 import axios from 'axios';
+import rootUrl from '../../utils/rootUrl';
 
 const FoodDetailScreen = ({ route, navigation }) => {
   const { foodId } = route.params;
@@ -13,7 +14,7 @@ const FoodDetailScreen = ({ route, navigation }) => {
 
   const fetchFood = async () => {
     try {
-      const res = await axios.get(`/api/food/${foodId}`);
+      const res = await axios.get(`${rootUrl}/api/food/${foodId}`);
       setFoodDetail(res.data.food);
     } catch (err) {
       console.error(err.message);

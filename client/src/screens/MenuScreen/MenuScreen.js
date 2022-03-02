@@ -13,6 +13,7 @@ import {
 } from 'react-native-cards';
 import axios from 'axios';
 import CustomCard from '../../components/CustomCard';
+import rootUrl from '../../utils/rootUrl';
 
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
@@ -28,7 +29,7 @@ const MenuScreen = ({ navigation }) => {
 
   useEffect(async () => {
     try {
-      const res = await axios.get(`/api/diningHall/all`);
+      const res = await axios.get(`${rootUrl}/api/diningHall/all`);
       setDiningHalls(res.data.allDiningHalls);
     } catch (err) {
       console.error(err.message);
