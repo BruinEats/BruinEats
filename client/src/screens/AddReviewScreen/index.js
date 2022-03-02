@@ -41,22 +41,22 @@ const AddReviewScreen = ({ route, navigation }) => {
     const data = { score: rating, comment, food: foodId, user: 'test@gmail.com' };
 
     const config = {
-      'Content-Type': 'application/json',
-      // TODO: add token in context
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYxMDc5ODQsImV4cCI6MTY0NjExMTU4NH0.RUpQdoVfJKq-6-VlFSjEDlCYb3m6CKhhpHRnS1iw1Jo`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     };
     const reviewBody = JSON.stringify(data);
     const ratingBody = JSON.stringify({ rating });
 
     try {
-      const res = await axios.post(`/api/food/${foodId}/add_review`, config, reviewBody);
+      const res = await axios.post(`/api/food/${foodId}/add_review`, reviewBody, config);
       console.log(res.data);
     } catch (err) {
       console.error(err.message);
     }
 
     try {
-      const res = await axios.post(`/api/food/${foodId}/add_rating`, config, ratingBody);
+      const res = await axios.post(`/api/food/${foodId}/add_rating`, ratingBody, config);
       console.log(res.data);
     } catch (err) {
       console.error(err.message);

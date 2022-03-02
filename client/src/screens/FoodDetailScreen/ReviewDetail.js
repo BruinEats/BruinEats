@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 
-import { rootUrl } from '../../env';
-
 const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
 

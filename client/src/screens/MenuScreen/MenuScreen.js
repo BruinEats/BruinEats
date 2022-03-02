@@ -14,8 +14,6 @@ import {
 import axios from 'axios';
 import CustomCard from '../../components/CustomCard';
 
-import axios from 'axios';
-
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
   const searchRef = useRef(null);

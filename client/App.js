@@ -1,8 +1,8 @@
 import React from 'react';
-import ReduxApp from './src';
+import AppNavigation from './src';
 
 function App() {
-  return <ReduxApp></ReduxApp>;
+  return <AppNavigation></AppNavigation>;
 }
 
 export default App;
