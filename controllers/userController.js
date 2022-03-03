@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-require('dotenv').config();
 const UserModel = require('../models/user');
 
 module.exports.register = async (req, res) => {
@@ -29,8 +28,8 @@ module.exports.register = async (req, res) => {
       password: hashedPassword,
       name,
     });
-    const token = jwt.sign({ email, id: newUser._id }, jwtSecretKey, {
-      expiresIn: '1h',
+    const token = jwt.sign({ email, id: newUser._id }, process.env.jwtSecret, {
+      expiresIn: '7d',
     });
 
     res.status(200).json({ token: token });
@@ -60,13 +59,14 @@ module.exports.signin = async (req, res) => {
       { email, id: signinUser._id },
       process.env.jwtSecret,
       {
-        expiresIn: '1h',
+        expiresIn: '1d',
       }
     );
 
     res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json(error);
+    console.log(error);
   }
 };
 
@@ -126,7 +126,7 @@ module.exports.getUsrDetail = async (req, res) => {
 
 module.exports.getUsrByToken = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id);
+    const user = await UserModel.findById(req.user.id).select('-password');
     console.log(req.user);
 
     res.status(200).json({ user });
