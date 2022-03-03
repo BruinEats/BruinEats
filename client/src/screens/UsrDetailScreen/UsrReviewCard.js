@@ -1,44 +1,86 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
-import axios from 'axios';
+import { Button } from '@ui-kitten/components';
+import fetchInstance from '../../utils/fetchInstance';
 
-const ReviewCard = ({ reviewId, navigation }) => {
+const ReviewCard = ({ reviewId, navigation, reviewDeletion, setReviewDeletion }) => {
+  const [reviewDetail, setReviewDetail] = useState({});
   const [foodName, setFoodName] = useState('');
-  const [foodRating, setFoodRating] = useState(3.0);
 
-  const getFoodName = async () => {
-    // try {
-    //   const res = await axios.get(`/api/food/name/${reviewId}`);
-    //   setFoodName(res.data.food);
-    // } catch (err) {
-    //   console.error(err.message);
-    // }
+  const fetchReviewDetail = async () => {
+    try {
+      const res = await fetchInstance(`/api/review/${reviewId}`, 'GET');
+      const data = await res.json();
 
-    fetch(`http://localhost:5000/api/review/${reviewId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-
-        // setFoodRating(rating);
-        // setFoodName(name);
-      })
-      .catch((error) => console.warn(error));
+      setReviewDetail(data.review.review);
+      setFoodName(data.review.foodName);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  useEffect(getFoodName, [reviewId]);
+  const handleReviewDeletion = async () => {
+    try {
+      const res = await fetchInstance(`/api/food/${reviewDetail.food}/${reviewId}`, 'DELETE');
+      const data = await res.json();
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(fetchReviewDetail, [reviewId]);
+
+  if (reviewDetail === undefined) {
+    return (
+      <Card>
+        <Card.Title>Loading...</Card.Title>
+      </Card>
+    );
+  }
 
   return (
-    // <TouchableOpacity onPress={() => navigation.navigate('foodDetail', { reviewId })}>
-    //   <Card>
-    //     <Card.Title>{foodName}</Card.Title>
-    //     <Text style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-    //       {foodRating !== 0.0 ? 'Rating: ' + Math.round(foodRating * 10) / 10 : 'Rating: Not Rated'}
-    //     </Text>
-    //   </Card>
-    // </TouchableOpacity>
-    <View></View>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('foodDetail', { foodId: reviewDetail.food })}
+    >
+      <Card>
+        <Card.Title>{foodName}</Card.Title>
+        <Card.Divider></Card.Divider>
+        <View style={styles.reviewContent}>
+          <Text style={styles.reviewComment}>{reviewDetail.comment}</Text>
+
+          <Rating
+            showRating
+            type="star"
+            fractions={1}
+            startingValue={reviewDetail.score}
+            readonly
+            imageSize={40}
+            style={{ paddingVertical: 10 }}
+          />
+
+          <Button style={styles.deletBtn} status="danger" onPress={handleReviewDeletion}>
+            Delete This Review
+          </Button>
+        </View>
+      </Card>
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  reviewContent: {
+    margin: 20,
+  },
+  reviewComment: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  deleteBtn: {
+    marginTop: 30,
+  },
+});
 
 export default ReviewCard;

@@ -198,7 +198,7 @@ module.exports.insertFoodReview = async (req, res) => {
     food.reviews.push(review._id);
     await food.save();
 
-    const user = req.user;
+    const { user } = req;
     const loginUsrId = user.id;
     const dataBaseUsr = await UserModel.findOne({ _id: loginUsrId });
     dataBaseUsr.reviews.push(review._id);

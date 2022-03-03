@@ -18,7 +18,8 @@ const FoodList = ({ input, data, navigation }) => {
               data.map((food) => {
                 return (
                   <TouchableOpacity
-                    onPress={() => navigation.navigate('foodDetail', { foodId: food['_id'] })}
+                    onPress={() => navigation.navigate('foodDetail', { foodId: food.id })}
+                    key={food.id}
                   >
                     <Card>
                       <Card.Title>{food.name}</Card.Title>

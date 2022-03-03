@@ -37,42 +37,8 @@ const MenuScreen = ({ navigation }) => {
   return (
     <View style={tw`flex-1`}>
       <LogoutButton />
-
-      {/* <AutocompleteDropdown
-        dataSet={diningHalls.map((diningHall) => {
-          return {
-            id: diningHall._id,
-            title: diningHall.name,
-          };
-        })}
-        ref={searchRef}
-        textInputProps={{
-          placeholder: 'Search for food or dininghall here',
-          placeholderTextColor: '#AEAEAE',
-          autoCorrect: false,
-          autoCapitalize: 'none',
-          style: {
-            borderRadius: 15,
-            backgroundColor: '#fff',
-            color: '#000',
-            paddingLeft: 15,
-          },
-        }}
-      ></AutocompleteDropdown> */}
-
-      <Layout level="1">
-        <Select
-          selectedIndex={searchSelectedIndex}
-          onSelect={(index) => setSearchSelectedIndex(index)}
-          value={searchSelectedIndex.row === 0 ? 'Search For Food' : 'Search For Dining Hall'}
-          style={styles.searchHeader}
-        >
-          <SelectItem title="Search For Food" />
-          <SelectItem title="Search For Dining Hall" />
-        </Select>
-      </Layout>
       <Input
-        placeholder="Search Input"
+        placeholder="Search For Food"
         value={searchInput}
         onChangeText={(nextValue) => setSearchInput(nextValue)}
       />
