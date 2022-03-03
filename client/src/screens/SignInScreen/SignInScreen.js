@@ -6,6 +6,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import axios from 'axios';
 import rootUrl from '../../utils/rootUrl';
+import { Input } from '@ui-kitten/components';
 
 import useAuth from '../../hooks/useAuth';
 
@@ -31,15 +32,25 @@ const SignInScreen = ({ navigation }) => {
   return (
     // <ScrollView>
     <View style={styles.root}>
-      <CustomInput placeholder="Your UCLA email" value={email} setValue={setEmail} />
-      <CustomInput
-        placeholder="Your password"
+      <Input
+        placeholder="email"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={(nextVal) => setEmail(nextVal)}
+      />
+      <Input
+        placeholder="password"
+        autoCapitalize="none"
         value={password}
-        setValue={setPassword}
+        onChangeText={(nextVal) => setPassword(nextVal)}
         secureTextEntry={true}
       />
-
-      <CustomButton onPress={() => handleLogin()} text="Sign in" type="Primary" bgColor={'blue'} />
+      <CustomButton
+        onPress={() => logIn(email, password)}
+        text="Sign in"
+        type="Primary"
+        bgColor={'blue'}
+      />
       {/* <CustomButton
         onPress={onForgotPwPressed}
         text="forgot password?"

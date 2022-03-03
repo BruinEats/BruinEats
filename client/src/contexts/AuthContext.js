@@ -1,9 +1,8 @@
 import { createContext, useEffect, useReducer } from 'react';
-import axios from 'axios';
 import rootUrl from '../utils/rootUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import setAuthToken from '../utils/setAuthToken';
+import fetchInstance from '../utils/fetchInstance';
 
 const initialState = {
   isAuthenticated: false,
@@ -37,79 +36,60 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // set axios x-auth-token header and update reducer state if token exists in localStorage
-  useEffect(async () => {
+  const getUserInfo = async () => {
+    console.log('get user info');
     const token = await AsyncStorage.getItem('token');
-    console.log(token);
-    console.log(state);
-    setAuthToken(token);
-
     if (token) {
-      console.log('get user info');
       try {
-        const res = await axios.get(`${rootUrl}/api/user/info`);
-        console.log(res.data);
+        const res = await fetchInstance(`${rootUrl}/api/user/info`, 'GET', token);
+        const data = await res.json();
+        console.log(data);
+
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            user: data.user,
+          },
+        });
+        console.log(state);
       } catch (err) {
         console.error(err);
       }
-
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          user: res.data.user,
-        },
-      });
     }
+  };
+
+  // set axios x-auth-token header and update reducer state if token exists in localStorage
+  useEffect(async () => {
+    console.log(state);
+    await getUserInfo();
   }, []);
 
   const logIn = async (email, password) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify({ email, password });
-    console.log(body);
-
-    console.log(`${rootUrl}/api/user/login`);
     try {
-      const res = await axios.post(`${rootUrl}/api/user/login`, body, config);
-      console.log(res.data);
+      console.log(email, password);
+      const res = await fetchInstance(`${rootUrl}/api/user/login`, 'POST', { email, password });
+      const data = await res.json();
+      console.log(data);
+
+      await AsyncStorage.setItem('token', data.token);
+      await getUserInfo();
     } catch (err) {
       console.log(err.response);
     }
-
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        user: res.data.user,
-      },
-    });
-
-    await AsyncStorage.setItem('token', res.data.token);
   };
 
   const register = async (email, name, password) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify({ name, email, password });
-    console.log(body);
-
     try {
-      const res = await axios.post(`${rootUrl}/api/user/register`, body, config);
-      console.log(res.data);
-
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          user: res.data.user,
-        },
+      const res = await fetchInstance(`${rootUrl}/api/user/register`, 'POST', null, {
+        name,
+        email,
+        password,
       });
+      const data = await res.json();
+      console.log(data);
 
-      await AsyncStorage.setItem('token', res.data.token);
+      await AsyncStorage.setItem('token', data.token);
+      await getUserInfo();
     } catch (err) {
       console.error(err.response);
     }
@@ -117,10 +97,10 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = async (name, email, password) => {
     try {
+      await AsyncStorage.setItem('token', null);
       dispatch({
         type: 'LOGOUT',
       });
-      await AsyncStorage.setItem('token', null);
     } catch (err) {
       console.error(err);
     }

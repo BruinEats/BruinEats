@@ -34,14 +34,21 @@ const SignUpScreen = ({ navigation }) => {
     <View style={styles.root}>
       {/* TODO: define image style with tailwinCSS */}
       <Text style={tw`text-3xl font-bold text-left text-blue-900`}>Create New Account</Text>
-      <Input placeholder="email" value={email} onChangeText={(nextVal) => setEmail(nextVal)} />
+      <Input
+        placeholder="email"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={(nextVal) => setEmail(nextVal)}
+      />
       <Input
         placeholder="username"
+        autoCapitalize="none"
         value={username}
         onChangeText={(nextVal) => setUsername(nextVal)}
       />
       <Input
         placeholder="password"
+        autoCapitalize="none"
         value={password}
         onChangeText={(nextVal) => setPassword(nextVal)}
         secureTextEntry={true}
