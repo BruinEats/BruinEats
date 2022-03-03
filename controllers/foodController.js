@@ -198,6 +198,12 @@ module.exports.insertFoodReview = async (req, res) => {
     food.reviews.push(review._id);
     await food.save();
 
+    const user = req.user;
+    const loginUsrId = user.id;
+    const dataBaseUsr = await UserModel.findOne({ _id: loginUsrId });
+    dataBaseUsr.reviews.push(review._id);
+    await dataBaseUsr.save();
+
     res.status(200).json({ food });
   } catch (error) {
     res.status(500).json({ error });

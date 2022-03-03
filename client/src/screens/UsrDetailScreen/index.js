@@ -1,58 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
-import fetchInstance from '../../utils/fetchInstance';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import ReviewCard from './UsrReviewCard';
+import { Divider, List, ListItem } from '@ui-kitten/components';
+import axios from 'axios';
 
-const UserDetail = ({ navigation }) => {
-  const [userDetail, setUserDetail] = useState({});
-  const [reviewDeletion, setReviewDeletion] = useState(0);
+import UsrReviewCard from './UsrReviewCard';
 
-  const fetchUserInfo = async () => {
-    const token = await AsyncStorage.getItem('token');
-    console.log(token);
+const UsrDetail = () => {
+  const [usrDetail, setusrDetail] = useState({});
+  const fetchUsrDetail = async () => {
+    // try {
+    //   const res = await axios.get(`/api/diningHall/${usrId}`);
+    //   setusrDetail(res.data.usrDetails);
+    // } catch (err) {
+    //   console.error(err.message);
+    // }
 
-    try {
-      const res = await fetchInstance('/api/user/info', 'GET', token);
-      const data = await res.json();
+    fetch(`http://localhost:5000/api/user/info`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOiI2MjA5NDdlNWExN2E2YTY2ZDhhNmUxZGQiLCJpYXQiOjE2NDYyODcyMDYsImV4cCI6MTY0NjI5MDgwNn0.qs2gKIc_covwtp6zuITBaWV80DCRcvQZni4OVyQF_iw`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // console.warn('Success:', data);
+        setusrDetail(data.user)
+      })
+      .catch((error) => {
+        console.warn('Error:', error);
 
-      setUserDetail(data.user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      });
+  }
 
-  useEffect(fetchUserInfo, [reviewDeletion]);
+  useEffect(fetchUsrDetail, []); 
+
+  if (usrDetail === undefined) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <ScrollView>
       <Card>
-        <Card.Title>User: {userDetail.name}</Card.Title>
+        <Card.Title>User Name: {usrDetail.name}</Card.Title>
+        <Card.Divider></Card.Divider>
+        <Text>
+            User Email: {usrDetail.email}
+          </Text>
+      </Card>
+
+      <Card>
+        <Card.Title>Reviews: </Card.Title>
         <Card.Divider></Card.Divider>
         <View>
           <View>
-            <Card>
-              <Card.Title>Email: {userDetail.email}</Card.Title>
-            </Card>
-
-            <Card>
-              <Card.Title>Reviews:</Card.Title>
-              <Card.Divider />
-              {userDetail &&
-                userDetail.reviews &&
-                userDetail.reviews.map((reviewId) => {
-                  return (
-                    <ReviewCard
-                      key={reviewId}
-                      reviewId={reviewId}
-                      navigation={navigation}
-                      reviewDeletion={reviewDeletion}
-                      setReviewDeletion={setReviewDeletion}
-                    />
-                  );
-                })}
-            </Card>
+            {usrDetail &&
+              usrDetail.name &&
+              usrDetail.reviews.map((reviewId) => {
+                return <UsrReviewCard key={reviewId} reviewId={reviewId} />;
+              })}
           </View>
         </View>
       </Card>
@@ -60,4 +67,33 @@ const UserDetail = ({ navigation }) => {
   );
 };
 
-export default UserDetail;
+const styles = StyleSheet.create({
+  diningHallDescription: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  diningHallText: {
+    margin: 10,
+  },
+  diningHallTitle: {
+    fontWeight: 'bold',
+  },
+  foodRating: {
+    fontSize: 30,
+    margin: 10,
+  },
+  foodRatingNum: {
+    fontSize: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  addReviewArea: {
+    alignItems: 'center',
+    padding: 50,
+  },
+  addReviewBtn: {
+    margin: 20,
+  },
+});
+
+export default UsrDetail;
