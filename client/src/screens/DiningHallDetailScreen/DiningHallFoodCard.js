@@ -12,9 +12,11 @@ const FoodCard = ({ foodId, navigation }) => {
 
   const getFoodName = async () => {
     try {
-      const res = await fetchInstance(`/api/food/name/620107d1122592b88a203b44`, 'GET');
+      const res = await fetchInstance(`/api/food/name/${foodId}`, 'GET');
       const data = await res.json();
-      setFoodName(data.food);
+
+      setFoodName(data.name);
+      setFoodRating(data.rating);
     } catch (err) {
       console.error(err);
     }

@@ -20,7 +20,7 @@ const SearchScreen = ({ route, navigation }) => {
       setSearchOutputs(data.food);
       console.log(res);
     } catch (err) {
-      console.error('error' + err);
+      console.log('error' + err);
     }
   };
 

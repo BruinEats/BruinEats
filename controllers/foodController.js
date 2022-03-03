@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer');
 const FoodModel = require('../models/food');
 const DiningHallModel = require('../models/diningHall');
 const ReviewModel = require('../models/review');
+const UserModel = require('../models/user');
 
 const diningHalls = [
   {
@@ -197,6 +198,12 @@ module.exports.insertFoodReview = async (req, res) => {
     food.reviews.push(review._id);
     await food.save();
 
+    const { user } = req;
+    const loginUsrId = user.id;
+    const dataBaseUsr = await UserModel.findOne({ _id: loginUsrId });
+    dataBaseUsr.reviews.push(review._id);
+    await dataBaseUsr.save();
+
     res.status(200).json({ food });
   } catch (error) {
     res.status(500).json({ error });
@@ -218,6 +225,15 @@ module.exports.removeFoodReview = async (req, res) => {
       (reviewId) => String(reviewId) !== String(reviewIdToRemove)
     );
     await food.save();
+
+    const { user } = req;
+    const loggedInUserId = user.id;
+    const databaseUser = await UserModel.findById(loggedInUserId);
+
+    databaseUser.reviews = databaseUser.reviews.filter(
+      (reviewId) => String(reviewId) !== String(reviewIdToRemove)
+    );
+    await databaseUser.save();
 
     await ReviewModel.findByIdAndDelete(reviewIdToRemove);
 

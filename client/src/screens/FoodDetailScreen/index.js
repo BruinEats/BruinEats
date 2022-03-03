@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
-
+import useAuth from '../../hooks/useAuth';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
 import fetchInstance from '../../utils/fetchInstance';
-import rootUrl from '../../utils/rootUrl';
 
 const FoodDetailScreen = ({ route, navigation }) => {
   const { foodId } = route.params;
+  const { isAuthenticated } = useAuth();
   const [foodDetail, setFoodDetail] = useState({});
 
   const fetchFood = async () => {
@@ -22,7 +22,15 @@ const FoodDetailScreen = ({ route, navigation }) => {
     }
   };
 
-  useEffect(fetchFood, []);
+  const handleAddReviewOnPress = async () => {
+    if (!isAuthenticated) {
+      console.warn('Unable to add review: Not logged in');
+    } else {
+      navigation.navigate('addReview', { foodId });
+    }
+  };
+
+  useEffect(fetchFood, [foodId]);
 
   return (
     <ScrollView>
@@ -79,7 +87,7 @@ const FoodDetailScreen = ({ route, navigation }) => {
       <View style={styles.addReviewArea}>
         <CustomButton
           style={styles.addReviewBtn}
-          onPress={() => navigation.navigate('addReview', { foodId })}
+          onPress={handleAddReviewOnPress}
           text="Add Review"
           type="Primary"
         />

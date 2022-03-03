@@ -6,11 +6,11 @@ const fetchInstance = async (url, method, token, body) => {
     method: method,
     headers: {
       'Content-Type': 'application/json',
-      Authentication: token ? token : '',
+      Authorization: token ? 'Bearer ' + token : '',
     },
     body: body ? JSON.stringify(body) : '',
   };
-  console.log(options);
+  // console.log(options);
 
   return fetch(rootUrl + url, options);
 };
