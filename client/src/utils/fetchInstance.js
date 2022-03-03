@@ -10,6 +10,7 @@ const fetchInstance = async (url, method, token, body) => {
     },
     body: body ? JSON.stringify(body) : '',
   };
+  console.log(options);
 
   return fetch(rootUrl + url, options);
 };

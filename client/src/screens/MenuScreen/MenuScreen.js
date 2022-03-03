@@ -8,6 +8,8 @@ import fetchInstance from '../../utils/fetchInstance';
 import CustomCard from '../../components/CustomCard';
 import rootUrl from '../../utils/rootUrl';
 
+import LogoutButton from '../../components/auth/LogoutButton';
+
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
   const [searchSelectedIndex, setSearchSelectedIndex] = React.useState(new IndexPath(0));
@@ -34,6 +36,8 @@ const MenuScreen = ({ navigation }) => {
 
   return (
     <View style={tw`flex-1`}>
+      <LogoutButton />
+
       {/* <AutocompleteDropdown
         dataSet={diningHalls.map((diningHall) => {
           return {

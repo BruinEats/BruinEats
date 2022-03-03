@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   const logIn = async (email, password) => {
     try {
       console.log(email, password);
-      const res = await fetchInstance(`/api/user/login`, 'POST', { email, password });
+      const res = await fetchInstance(`/api/user/login`, 'POST', null, { email, password });
       const data = await res.json();
       console.log(data);
 
@@ -97,10 +97,11 @@ export const AuthProvider = ({ children }) => {
 
   const logOut = async (name, email, password) => {
     try {
-      await AsyncStorage.setItem('token', null);
+      await AsyncStorage.removeItem('token');
       dispatch({
         type: 'LOGOUT',
       });
+      console.log(state);
     } catch (err) {
       console.error(err);
     }

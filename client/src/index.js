@@ -3,7 +3,6 @@ import { ApplicationProvider, Layout, Text, useTheme } from '@ui-kitten/componen
 import * as eva from '@eva-design/eva';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './Tabs';
 
 import { AuthProvider } from './contexts/AuthContext';
