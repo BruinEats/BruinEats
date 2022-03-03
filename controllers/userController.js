@@ -1,7 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const jwtSecretKey = require('../config/default.json').jwtSecret;
 const UserModel = require('../models/user');
 
 module.exports.register = async (req, res) => {
@@ -17,14 +16,20 @@ module.exports.register = async (req, res) => {
       return;
     }
 
+    const uclaEmailRegex = /^[A-Za-z0-9._%+-]+@(g.)?ucla.edu/g;
+    if (!email.match(uclaEmailRegex)) {
+      res.status(400).json({ message: 'You must register with an ucla email' });
+      return;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = await UserModel.create({
       email,
       password: hashedPassword,
       name,
     });
-    const token = jwt.sign({ email, id: newUser._id }, jwtSecretKey, {
-      expiresIn: '1h',
+    const token = jwt.sign({ email, id: newUser._id }, process.env.jwtSecret, {
+      expiresIn: '7d',
     });
 
     res.status(200).json({ token: token });
@@ -35,6 +40,7 @@ module.exports.register = async (req, res) => {
 
 module.exports.signin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
 
   try {
     const signinUser = await UserModel.findOne({ email });
@@ -50,13 +56,18 @@ module.exports.signin = async (req, res) => {
       return;
     }
 
-    const token = jwt.sign({ email, id: signinUser._id }, jwtSecretKey, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign(
+      { email, id: signinUser._id },
+      process.env.jwtSecret,
+      {
+        expiresIn: '1d',
+      }
+    );
 
     res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json(error);
+    console.log(error);
   }
 };
 
@@ -116,7 +127,7 @@ module.exports.getUsrDetail = async (req, res) => {
 
 module.exports.getUsrByToken = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id);
+    const user = await UserModel.findById(req.user.id).select('-password');
     console.log(req.user);
 
     res.status(200).json({ user });

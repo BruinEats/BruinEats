@@ -2,31 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import { Divider, List, ListItem } from '@ui-kitten/components';
-import axios from 'axios';
 
+import fetchInstance from '../../utils/fetchInstance';
 import DiningHallFoodCard from './DiningHallFoodCard';
 
 const DiningHallDetail = ({ route, navigation }) => {
   const { diningHallId } = route.params;
   const [diningHallDetail, setDiningHallDetail] = useState({});
 
-  console.warn(diningHallId);
-
   const fetchDiningHallDetail = async () => {
-    // try {
-    //   const res = await axios.get(`/api/diningHall/${diningHallId}`);
-    //   setDiningHallDetail(res.data.diningHallDetails);
-    // } catch (err) {
-    //   console.error(err.message);
-    // }
-
-    fetch(`http://192.168.112.1:5000/api/dininghall/${diningHallId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const newDininghall = data.diningHallDetails;
-        setDiningHallDetail(newDininghall);
-      })
-      .catch((error) => console.warn(error));
+    try {
+      const res = await fetchInstance(`/api/diningHall/${diningHallId}`, 'GET');
+      const data = await res.json();
+      setDiningHallDetail(data.diningHallDetails);
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   useEffect(fetchDiningHallDetail, [diningHallId]);

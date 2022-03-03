@@ -3,8 +3,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import tw from 'tailwind-react-native-classnames';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import { Button, Input, IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
-import axios from 'axios';
+
+import fetchInstance from '../../utils/fetchInstance';
 import CustomCard from '../../components/CustomCard';
+import rootUrl from '../../utils/rootUrl';
+
+import LogoutButton from '../../components/auth/LogoutButton';
 
 const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
@@ -22,8 +26,9 @@ const MenuScreen = ({ navigation }) => {
 
   useEffect(async () => {
     try {
-      const res = await axios.get(`/api/diningHall/all`);
-      setDiningHalls(res.data.allDiningHalls);
+      const res = await fetchInstance(`/api/diningHall/all`, 'GET');
+      const data = await res.json();
+      setDiningHalls(data.allDiningHalls);
     } catch (err) {
       console.error(err.message);
     }
@@ -31,6 +36,8 @@ const MenuScreen = ({ navigation }) => {
 
   return (
     <View style={tw`flex-1`}>
+      <LogoutButton />
+
       {/* <AutocompleteDropdown
         dataSet={diningHalls.map((diningHall) => {
           return {

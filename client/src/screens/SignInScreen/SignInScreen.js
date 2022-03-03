@@ -4,41 +4,59 @@ import React, { useState } from 'react';
 import Logo from '../../../assets/favicon.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import tw from 'tailwind-react-native-classnames';
+import axios from 'axios';
+import rootUrl from '../../utils/rootUrl';
+import { Input } from '@ui-kitten/components';
+
+import useAuth from '../../hooks/useAuth';
 
 const SignInScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const onSignInPressed = () => {
-    console.warn('Sign In Pressed');
-  };
-  const onForgotPwPressed = () => {
-    console.warn('Forgot Password Pressed');
-  };
-  const onSignUpPressed = () => {
-    console.warn('Sign Up Pressed');
+  const { logIn } = useAuth();
+
+  const handleLogin = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = JSON.stringify({ email, password });
+    console.log(body);
+
+    console.log(`${rootUrl}/api/user/login`);
+    const res = await axios.post(`http://localhost:5000/api/user/login`, body, config);
+    console.log(res.data);
   };
 
   return (
     // <ScrollView>
     <View style={styles.root}>
-
-      <CustomInput placeholder="username" value={username} setValue={setUsername} />
-      <CustomInput
+      <Input
+        placeholder="email"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={(nextVal) => setEmail(nextVal)}
+      />
+      <Input
         placeholder="password"
+        autoCapitalize="none"
         value={password}
-        setValue={setPassword}
+        onChangeText={(nextVal) => setPassword(nextVal)}
         secureTextEntry={true}
       />
-
-      <CustomButton onPress={onSignInPressed} text="Sign in" type="Primary" bgColor={'blue'} />
+      <CustomButton
+        onPress={() => logIn(email, password)}
+        text="Sign in"
+        type="Primary"
+        bgColor={'blue'}
+      />
       {/* <CustomButton
         onPress={onForgotPwPressed}
         text="forgot password?"
         type="Tertiary"
       /> */}
       <CustomButton
-        onPress={onSignUpPressed}
         text="Sign up"
         type="Tertiary"
         onPress={() => navigation.navigate('register')}

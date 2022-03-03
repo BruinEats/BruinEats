@@ -3,12 +3,6 @@ const mongoose = require('mongoose');
 const Review = new mongoose.Schema({
   score: {
     type: Number,
-    default: 3.0,
-    required: true,
-  },
-  food: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Food',
     required: true,
   },
   comment: {
@@ -16,9 +10,17 @@ const Review = new mongoose.Schema({
     default: '',
     required: false,
   },
-  user: {
+  photo: {
     type: String,
-    default: '',
+  },
+  food: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Food',
+    required: true,
+  },
+  user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     required: true,
   },
 });

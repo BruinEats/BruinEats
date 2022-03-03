@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 
+import rootUrl from '../../utils/rootUrl';
+
 const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
 
   const getReviewDetail = async () => {
     try {
-      const res = await axios.get(`/api/review/${reviewId}`);
+      const res = await fetch(`${rootUrl}/api/review/${reviewId}`);
       setReviewDetail(res.data.review);
     } catch (err) {
       console.error(err.message);
