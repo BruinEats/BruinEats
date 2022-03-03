@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer');
 const FoodModel = require('../models/food');
 const DiningHallModel = require('../models/diningHall');
 const ReviewModel = require('../models/review');
+const UserModel = require('../models/user');
 
 const diningHalls = [
   {
@@ -218,6 +219,15 @@ module.exports.removeFoodReview = async (req, res) => {
       (reviewId) => String(reviewId) !== String(reviewIdToRemove)
     );
     await food.save();
+
+    const { user } = req;
+    const loggedInUserId = user.id;
+    const databaseUser = await UserModel.findById(loggedInUserId);
+
+    databaseUser.reviews = databaseUser.reviews.filter(
+      (reviewId) => String(reviewId) !== String(reviewIdToRemove)
+    );
+    await databaseUser.save();
 
     await ReviewModel.findByIdAndDelete(reviewIdToRemove);
 

@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
+const FoodModel = require('../models/food');
 const ReviewModel = require('../models/review');
-require("dotenv").config();
+require('dotenv').config();
 
 module.exports.addUsrReview = async (req, res, next) => {
   const { user_id, review_id } = req.params;
@@ -23,8 +22,9 @@ module.exports.getUsrReview = async (req, res) => {
     const { _id } = req.params;
 
     const review = await ReviewModel.findById(_id);
+    const food = await FoodModel.findById(review.food);
 
-    res.status(200).json({ review });
+    res.status(200).json({ review: { review, foodName: food.name } });
   } catch (error) {
     res.status(500).json({ error });
   }

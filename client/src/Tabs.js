@@ -10,6 +10,7 @@ import MenuScreen from './screens/MenuScreen';
 import FoodDetailScreen from './screens/FoodDetailScreen';
 import AddReviewScreen from './screens/AddReviewScreen';
 import DiningHallDetail from './screens/DiningHallDetailScreen';
+import UserDetail from './screens/UsrDetailScreen';
 import SearchScreen from './screens/SearchScreen';
 import useAuth from './hooks/useAuth';
 
@@ -64,6 +65,7 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen name="diningHall" component={DiningHallDetail} />
+      <Tab.Screen name="user" component={UserDetail} />
       <Tab.Screen name="search" component={SearchScreen} />
       <Tab.Screen name="register" component={SignUpScreen} />
     </Tab.Navigator>
