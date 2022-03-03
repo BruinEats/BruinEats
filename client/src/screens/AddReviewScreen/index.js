@@ -3,6 +3,8 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card } from 'react-native-elements';
 import { Button, Input } from '@ui-kitten/components';
 import axios from 'axios';
+
+import fetchInstance from '../../utils/fetchInstance';
 import rootUrl from '../../utils/rootUrl';
 
 const AddReviewScreen = ({ route, navigation }) => {
@@ -13,9 +15,9 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   const fetchFood = async () => {
     try {
-      console.log(`${rootUrl}/api/food/${foodId}`)
-      const res = await axios.get(`${rootUrl}/api/food/${foodId}`);
-      setFoodDetail(res.data.food);
+      const res = await fetchInstance(`/api/food/${foodId}`, 'GET');
+      const data = await res.json();
+      setFoodDetail(data.food);
     } catch (err) {
       console.error(err.message);
     }
@@ -51,8 +53,8 @@ const AddReviewScreen = ({ route, navigation }) => {
     const ratingBody = JSON.stringify({ rating });
 
     try {
-      console.log(reviewBody)
-      console.log(`${rootUrl}/api/food/${foodId}/add_review`)
+      console.log(reviewBody);
+      console.log(`${rootUrl}/api/food/${foodId}/add_review`);
       const res = await axios.post(`${rootUrl}/api/food/${foodId}/add_review`, reviewBody, config);
       console.log(res.data);
     } catch (err) {

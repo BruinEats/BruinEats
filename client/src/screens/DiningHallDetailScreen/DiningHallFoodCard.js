@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import axios from 'axios';
+
+import fetchInstance from '../../utils/fetchInstance';
 import rootUrl from '../../utils/rootUrl';
 
 const FoodCard = ({ foodId, navigation }) => {
@@ -10,10 +12,11 @@ const FoodCard = ({ foodId, navigation }) => {
 
   const getFoodName = async () => {
     try {
-      const res = await axios.get(`${rootUrl}/api/food/name/${foodId}`);
-      setFoodName(res.data.food);
+      const res = await fetchInstance(`/api/food/name/620107d1122592b88a203b44`, 'GET');
+      const data = await res.json();
+      setFoodName(data.food);
     } catch (err) {
-      console.error(err.message);
+      console.error(err);
     }
   };
 

@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     const token = await AsyncStorage.getItem('token');
     if (token) {
       try {
-        const res = await fetchInstance(`${rootUrl}/api/user/info`, 'GET', token);
+        const res = await fetchInstance(`/api/user/info`, 'GET', token);
         const data = await res.json();
         console.log(data);
 
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   const logIn = async (email, password) => {
     try {
       console.log(email, password);
-      const res = await fetchInstance(`${rootUrl}/api/user/login`, 'POST', { email, password });
+      const res = await fetchInstance(`/api/user/login`, 'POST', { email, password });
       const data = await res.json();
       console.log(data);
 
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, name, password) => {
     try {
-      const res = await fetchInstance(`${rootUrl}/api/user/register`, 'POST', null, {
+      const res = await fetchInstance(`/api/user/register`, 'POST', null, {
         name,
         email,
         password,

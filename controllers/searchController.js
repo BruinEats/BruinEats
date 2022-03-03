@@ -6,6 +6,7 @@ const DiningHallModel = require('../models/diningHall');
 module.exports.searchFoodName = async (req, res) => {
   try {
     const { foodName, diningHallName } = req.body;
+    console.log(foodName, diningHallName);
 
     const regexp = new RegExp(`.*${foodName || ''}.*`, 'i');
     const filteredFood = await FoodModel.find({ name: regexp });

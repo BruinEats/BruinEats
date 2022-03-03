@@ -5,7 +5,7 @@ import { Text, Card, Rating } from 'react-native-elements';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
-import axios from 'axios';
+import fetchInstance from '../../utils/fetchInstance';
 import rootUrl from '../../utils/rootUrl';
 
 const FoodDetailScreen = ({ route, navigation }) => {
@@ -14,8 +14,9 @@ const FoodDetailScreen = ({ route, navigation }) => {
 
   const fetchFood = async () => {
     try {
-      const res = await axios.get(`${rootUrl}/api/food/${foodId}`);
-      setFoodDetail(res.data.food);
+      const res = await fetchInstance(`/api/food/${foodId}`, 'GET');
+      const data = await res.json();
+      setFoodDetail(data.food);
     } catch (err) {
       console.error(err.message);
     }

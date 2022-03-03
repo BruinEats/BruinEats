@@ -9,7 +9,7 @@ const ReviewDetail = ({ reviewId }) => {
 
   const getReviewDetail = async () => {
     try {
-      const res = await axios.get(`${rootUrl}/api/review/${reviewId}`);
+      const res = await fetch(`${rootUrl}/api/review/${reviewId}`);
       setReviewDetail(res.data.review);
     } catch (err) {
       console.error(err.message);

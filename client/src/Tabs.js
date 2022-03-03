@@ -5,11 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SignInScreen from './screens/SignInScreen/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 // import HomeScreen from '../screens/HomeScreen';
-import MenuScreen from '../screens/MenuScreen';
-import FoodDetailScreen from '../screens/FoodDetailScreen';
-import AddReviewScreen from '../screens/AddReviewScreen';
-import DiningHallDetail from '../screens/DiningHallDetailScreen';
-import SearchScreen from '../screens/SearchScreen';
+import MenuScreen from './screens/MenuScreen';
+import FoodDetailScreen from './screens/FoodDetailScreen';
+import AddReviewScreen from './screens/AddReviewScreen';
+import DiningHallDetail from './screens/DiningHallDetailScreen';
+import SearchScreen from './screens/SearchScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 

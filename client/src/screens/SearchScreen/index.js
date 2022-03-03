@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 
+import fetchInstance from '../../utils/fetchInstance';
+import rootUrl from '../../utils/rootUrl';
+
 import FoodList from './FoodList';
 import DiningHallList from './DiningHallList';
 
@@ -8,40 +11,29 @@ const SearchScreen = ({ route, navigation }) => {
   const { searchInput, searchId } = route.params;
   const [searchOutputs, setSearchOutputs] = useState([]);
 
-  console.warn(searchInput, searchId);
-
   const getFoodSearchResult = async () => {
-    fetch(`http://192.168.244.1:5000/api/search/food_name`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ foodName: searchInput }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setSearchOutputs(data.food);
-      })
-      .catch((error) => {
-        console.warn('Error:', error);
+    try {
+      const res = await fetchInstance(`/api/search/food_name`, 'POST', null, {
+        foodName: searchInput,
       });
+      const data = await res.json();
+      setSearchOutputs(data.food);
+      console.log(res);
+    } catch (err) {
+      console.error('error' + err);
+    }
   };
 
   const getDiningHallSearchResult = async () => {
-    fetch(`http://192.168.244.1:5000/api/search/dining_hall`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ diningHallName: searchInput }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setSearchOutputs(data.diningHalls);
-      })
-      .catch((error) => {
-        console.warn('Error:', error);
+    try {
+      const res = await fetchInstance('/api/search/dining_hall', 'POST', null, {
+        diningHallName: searchInput,
       });
+      const data = await res.json();
+      setSearchOutputs(data.diningHalls);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const search = async () => {
