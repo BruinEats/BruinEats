@@ -10,18 +10,21 @@ const Review = new mongoose.Schema({
     default: '',
     required: false,
   },
-  photo: {
-    type: String,
-  },
-  food: {
+  foodId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Food',
     required: true,
   },
-  user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
+  },
+  imageUrl: {
+    type: String,
+  },
+  imageId: {
+    type: String,
   },
 });
 

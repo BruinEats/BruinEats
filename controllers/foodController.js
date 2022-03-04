@@ -1,10 +1,17 @@
+/* eslint-disable new-cap */
+/* eslint-disable prefer-const */
 /* eslint-disable no-unreachable-loop */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable node/no-unsupported-features/es-syntax */
 /* eslint no-underscore-dangle: 0 */
+const { response } = require('express');
 const mongoose = require('mongoose');
 const puppeteer = require('puppeteer');
+
+const cloudinary = require('../middleware/cloudinary');
+const upload = require('../middleware/multer');
+
 const FoodModel = require('../models/food');
 const DiningHallModel = require('../models/diningHall');
 const ReviewModel = require('../models/review');
@@ -182,29 +189,51 @@ module.exports.removeFood = async (req, res) => {
 
 module.exports.insertFoodReview = async (req, res) => {
   try {
-    const newReview = req.body;
-    const { _id } = req.params;
+    const { score, comment } = JSON.parse(req.body.data);
+    const userId = req.user.id;
 
-    if (!mongoose.Types.ObjectId.isValid(_id)) {
+    const { _id } = req.params;
+    const food = await FoodModel.findOne({ _id });
+    if (!food) {
       return res.status(404).json({
         error: 'No food with the given id',
       });
     }
+    const foodId = _id;
 
-    const review = new ReviewModel(newReview);
+    let imageUrl = '';
+    let imageId = '';
+    if (req.file) {
+      const fileName = req.file.originalname.substring(
+        0,
+        req.file.originalname.lastIndexOf('.')
+      );
+      const clRes = await cloudinary.uploader.upload(req.file.path, {
+        public_id: `${Date.now()}-${fileName}`,
+      });
+      imageUrl = clRes.secure_url ? clRes.secure_url : '';
+      imageId = clRes.public_id ? clRes.public_id : '';
+    }
+
+    const review = new ReviewModel({
+      score,
+      comment,
+      userId,
+      foodId,
+      imageUrl,
+      imageId,
+    });
+    console.log(review);
     await review.save();
 
-    const food = await FoodModel.findOne({ _id });
-    food.reviews.push(review._id);
+    food.reviews.unshift(review._id);
     await food.save();
 
-    const { user } = req;
-    const loginUsrId = user.id;
-    const dataBaseUsr = await UserModel.findOne({ _id: loginUsrId });
-    dataBaseUsr.reviews.push(review._id);
-    await dataBaseUsr.save();
+    const user = await UserModel.findOne({ _id: req.user.id });
+    user.reviews.unshift(review._id);
+    await user.save();
 
-    res.status(200).json({ food });
+    res.status(200).json({ review });
   } catch (error) {
     res.status(500).json({ error });
   }
