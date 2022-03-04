@@ -23,6 +23,8 @@ const FoodDetailScreen = ({ route, navigation }) => {
   };
 
   const handleAddReviewOnPress = async () => {
+    console.log(isAuthenticated);
+
     if (!isAuthenticated) {
       console.warn('Unable to add review: Not logged in');
     } else {

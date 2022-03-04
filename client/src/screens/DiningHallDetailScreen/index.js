@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
-import { Divider, List, ListItem } from '@ui-kitten/components';
+import { Input, Button } from '@ui-kitten/components';
 
 import fetchInstance from '../../utils/fetchInstance';
 import DiningHallFoodCard from './DiningHallFoodCard';
@@ -9,12 +9,33 @@ import DiningHallFoodCard from './DiningHallFoodCard';
 const DiningHallDetail = ({ route, navigation }) => {
   const { diningHallId } = route.params;
   const [diningHallDetail, setDiningHallDetail] = useState({});
+  const [foodList, setFoodList] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
 
   const fetchDiningHallDetail = async () => {
     try {
       const res = await fetchInstance(`/api/diningHall/${diningHallId}`, 'GET');
       const data = await res.json();
       setDiningHallDetail(data.diningHallDetails);
+      setFoodList(data.diningHallDetails.foods);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const handleSearchInput = async () => {
+    if (diningHallDetail === undefined) {
+      return;
+    }
+
+    try {
+      const res = await fetchInstance(`/api/search/food_name`, 'POST', null, {
+        foodName: searchInput,
+        diningHallName: diningHallDetail.name,
+      });
+      const data = await res.json();
+      console.log(data);
+      setFoodList(data.food.map((food) => food.id));
     } catch (err) {
       console.error(err.message);
     }
@@ -28,16 +49,22 @@ const DiningHallDetail = ({ route, navigation }) => {
 
   return (
     <ScrollView>
+      <Input
+        placeholder="Search For Food"
+        value={searchInput}
+        onChangeText={(nextValue) => setSearchInput(nextValue)}
+      />
+      <Button style={styles.diningHallSearchBtn} onPress={handleSearchInput}>
+        Search
+      </Button>
       <Card>
         <Card.Title>Dining Hall: {diningHallDetail.name}</Card.Title>
         <Card.Divider></Card.Divider>
         <View>
           <View>
-            {diningHallDetail &&
-              diningHallDetail.foods &&
-              diningHallDetail.foods.map((foodId) => {
-                return <DiningHallFoodCard key={foodId} foodId={foodId} navigation={navigation} />;
-              })}
+            {foodList.map((foodId) => {
+              return <DiningHallFoodCard key={foodId} foodId={foodId} navigation={navigation} />;
+            })}
           </View>
         </View>
       </Card>
@@ -49,6 +76,9 @@ const styles = StyleSheet.create({
   diningHallDescription: {
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  diningHallSearchBtn: {
+    marginTop: 5,
   },
   diningHallText: {
     margin: 10,

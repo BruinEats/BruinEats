@@ -17,24 +17,36 @@ import useAuth from './hooks/useAuth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
-const addReviewStack = createStackNavigator();
+const Stack = createStackNavigator();
 
 const Tabs = () => {
   const { isAuthenticated } = useAuth();
 
-  const AddReviewNagivator = () => {
+  // const AddReviewNagivator = () => {
+  //   return (
+  //     <addReviewStack.Navigator
+  //       screenOptions={{
+  //         headerShown: false,
+  //       }}
+  //     >
+  //       {isAuthenticated ? (
+  //         <addReviewStack.Screen name="addReview" component={AddReviewScreen} />
+  //       ) : (
+  //         <addReviewStack.Screen name="login" component={SignInScreen} />
+  //       )}
+  //     </addReviewStack.Navigator>
+  //   );
+  // };
+
+  const MenuStackNavigator = () => {
     return (
-      <addReviewStack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        {isAuthenticated ? (
-          <addReviewStack.Screen name="addReview" component={AddReviewScreen} />
-        ) : (
-          <addReviewStack.Screen name="login" component={SignInScreen} />
-        )}
-      </addReviewStack.Navigator>
+      <Stack.Navigator initialRouteName="menu">
+        <Stack.Screen name="menu" component={MenuScreen} />
+        <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
+        <Stack.Screen name="diningHall" component={DiningHallDetail} />
+        <Stack.Screen name="addReview" component={AddReviewScreen} />
+        <Stack.Screen name="search" component={SearchScreen} />
+      </Stack.Navigator>
     );
   };
 
@@ -47,7 +59,14 @@ const Tabs = () => {
           tabBarIcon: (tabInfo) => <Ionicons name="home" size={18} color={tabInfo.tintColor} />,
         }}
       />
-      <Tab.Screen
+
+      <Tab.Screen name="register" component={SignUpScreen} />
+
+      <Tab.Screen name="bruineats" component={MenuStackNavigator} />
+
+      <Tab.Screen name="user" component={UserDetail} />
+
+      {/* <Tab.Screen
         name="menu"
         component={MenuScreen}
         options={{
@@ -65,9 +84,8 @@ const Tabs = () => {
         }}
       />
       <Tab.Screen name="diningHall" component={DiningHallDetail} />
-      <Tab.Screen name="user" component={UserDetail} />
-      <Tab.Screen name="search" component={SearchScreen} />
-      <Tab.Screen name="register" component={SignUpScreen} />
+      
+      <Tab.Screen name="search" component={SearchScreen} /> */}
     </Tab.Navigator>
   );
 };

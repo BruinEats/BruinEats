@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-
 import fetchInstance from '../../utils/fetchInstance';
-import rootUrl from '../../utils/rootUrl';
-
 import FoodList from './FoodList';
 import DiningHallList from './DiningHallList';
 
