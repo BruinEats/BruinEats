@@ -6,7 +6,6 @@ import { Button, Input, IndexPath, Layout, Select, SelectItem } from '@ui-kitten
 
 import fetchInstance from '../../utils/fetchInstance';
 import CustomCard from '../../components/CustomCard';
-import rootUrl from '../../utils/rootUrl';
 
 import LogoutButton from '../../components/auth/LogoutButton';
 

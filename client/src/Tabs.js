@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SignInScreen from './screens/SignInScreen/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
@@ -17,7 +17,7 @@ import useAuth from './hooks/useAuth';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const Tabs = () => {
   const { isAuthenticated } = useAuth();

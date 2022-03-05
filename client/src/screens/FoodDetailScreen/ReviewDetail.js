@@ -10,13 +10,22 @@ const ReviewDetail = ({ reviewId }) => {
     try {
       const res = await fetchInstance(`/api/review/${reviewId}`, 'GET');
       const data = await res.json();
-      setReviewDetail(data.review.review);
+
+      console.log(reviewId, data);
+
+      if (data && data.review && data.review.review) {
+        setReviewDetail(data.review.review);
+      }
     } catch (err) {
       console.error(err.message);
     }
   };
 
   useEffect(getReviewDetail, []);
+
+  if (reviewDetail === undefined) {
+    return <View></View>;
+  }
 
   return (
     <Card>
