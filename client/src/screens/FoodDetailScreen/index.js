@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
-import useAuth from '../../hooks/useAuth';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
@@ -9,7 +8,7 @@ import fetchInstance from '../../utils/fetchInstance';
 
 const FoodDetailScreen = ({ route, navigation }) => {
   const { foodId } = route.params;
-  const { isAuthenticated } = useAuth();
+  const [hasTokenExpired, setHasTokenExpired] = useState(false);
   const [foodDetail, setFoodDetail] = useState({});
 
   const fetchFood = async () => {
@@ -23,10 +22,21 @@ const FoodDetailScreen = ({ route, navigation }) => {
   };
 
   const handleAddReviewOnPress = async () => {
-    console.log(isAuthenticated);
+    try {
+      const res = await fetchInstance('/api/user/info', 'GET', token);
+      const data = await res.json();
 
-    if (!isAuthenticated) {
-      console.warn('Unable to add review: Not logged in');
+      if (data.message && data.message === 'Authentication Failed') {
+        setHasTokenExpired(true);
+      } else {
+        setUserDetail(data.user);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    if (hasTokenExpired) {
+      console.warn('Unable to add review: Your session has expired. Please log in again.');
     } else {
       navigation.navigate('addReview', { foodId });
     }
