@@ -6,6 +6,7 @@ import SignInScreen from './screens/SignInScreen/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 // import HomeScreen from '../screens/HomeScreen';
 import MenuScreen from './screens/MenuScreen';
+import TodayMenuScreen from './screens/TodayMenuScreen';
 import FoodDetailScreen from './screens/FoodDetailScreen';
 import AddReviewScreen from './screens/AddReviewScreen';
 import DiningHallDetail from './screens/DiningHallDetailScreen';
@@ -37,10 +38,22 @@ const Tabs = () => {
   //   );
   // };
 
-  const MenuStackNavigator = () => {
+  const AllMenuNavigator = () => {
     return (
       <Stack.Navigator initialRouteName="menu">
         <Stack.Screen name="menu" component={MenuScreen} />
+        <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
+        <Stack.Screen name="diningHall" component={DiningHallDetail} />
+        <Stack.Screen name="addReview" component={AddReviewScreen} />
+        <Stack.Screen name="search" component={SearchScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const TodayMenuNavigator = () => {
+    return (
+      <Stack.Navigator initialRouteName="menu">
+        <Stack.Screen name="menu" component={TodayMenuScreen} />
         <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
         <Stack.Screen name="diningHall" component={DiningHallDetail} />
         <Stack.Screen name="addReview" component={AddReviewScreen} />
@@ -61,7 +74,8 @@ const Tabs = () => {
 
       <Tab.Screen name="register" component={SignUpScreen} />
 
-      <Tab.Screen name="bruineats" component={MenuStackNavigator} />
+      <Tab.Screen name="Today Menu" component={TodayMenuNavigator} />
+      <Tab.Screen name="All Menu" component={AllMenuNavigator} />
 
       <Tab.Screen name="user" component={UserDetail} />
 

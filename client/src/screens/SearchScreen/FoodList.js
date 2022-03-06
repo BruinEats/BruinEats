@@ -3,10 +3,6 @@ import { View, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Text, Card } from 'react-native-elements';
 
 const FoodList = ({ input, data, navigation }) => {
-  if (data.length === 0) {
-    return <View></View>;
-  }
-
   return (
     <ScrollView>
       <Card>

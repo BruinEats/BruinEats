@@ -18,6 +18,7 @@ const DiningHallList = ({ input, data, navigation }) => {
               data.map((diningHall) => {
                 return (
                   <TouchableOpacity
+                    key={diningHall['_id']}
                     onPress={() =>
                       navigation.navigate('diningHall', { diningHallId: diningHall['_id'] })
                     }

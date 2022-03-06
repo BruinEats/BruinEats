@@ -72,38 +72,43 @@ module.exports.getMenu = async (req, res) => {
 
 module.exports.scrapMenuToday = async (req, res) => {
   try {
-    const menuToday = new MenuModel({
-      date: new Date().toISOString().slice(0, 10),
-    });
+    const date = new Date().toISOString().slice(0, 10);
+    const existingMenu = await MenuModel.findOne({ date });
 
-    for await (const diningHall of diningHalls) {
-      const foodNames = await getMenu(diningHall.link);
+    if (existingMenu) {
+      res.status(200).json({ existingMenu });
+    } else {
+      const menuToday = new MenuModel({ date });
 
-      const foods = [];
-      const existedNames = [];
-      for await (const name of foodNames) {
-        const food = await FoodModel.findOne({ name });
+      for await (const diningHall of diningHalls) {
+        const foodNames = await getMenu(diningHall.link);
 
-        // create new food if not existed
-        if (!food && !(name in existedNames)) {
-          const newFood = await new FoodModel({
-            name,
-            diningHall: diningHall.name,
-          }).save();
-          foods.push(newFood);
-          existedNames.push(name);
-        } else {
-          foods.push(food);
-          existedNames.push(name);
+        const foods = [];
+        const existedNames = [];
+        for await (const name of foodNames) {
+          const food = await FoodModel.findOne({ name });
+
+          // create new food if not existed
+          if (!food && !(name in existedNames)) {
+            const newFood = await new FoodModel({
+              name,
+              diningHall: diningHall.name,
+            }).save();
+            foods.push(newFood);
+            existedNames.push(name);
+          } else {
+            foods.push(food);
+            existedNames.push(name);
+          }
         }
-      }
 
-      menuToday[diningHall.link] = foods;
-      console.log(diningHall.name + foods.length);
-      console.log(menuToday[diningHall.link].length);
+        menuToday[diningHall.link] = foods;
+        console.log(diningHall.name + foods.length);
+        console.log(menuToday[diningHall.link].length);
+      }
+      await menuToday.save();
+      return res.status(200).json(menuToday);
     }
-    await menuToday.save();
-    return res.status(200).json(menuToday);
   } catch (err) {
     console.error(err.message);
     return res.status(500).json(err.message);

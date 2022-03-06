@@ -7,7 +7,7 @@ import fetchInstance from '../../utils/fetchInstance';
 import DiningHallFoodCard from './DiningHallFoodCard';
 
 const DiningHallDetail = ({ route, navigation }) => {
-  const { diningHallId } = route.params;
+  const { diningHallId, isToday, foods } = route.params;
   const [diningHallDetail, setDiningHallDetail] = useState({});
   const [foodList, setFoodList] = useState([]);
   const [searchInput, setSearchInput] = useState('');
@@ -17,7 +17,12 @@ const DiningHallDetail = ({ route, navigation }) => {
       const res = await fetchInstance(`/api/diningHall/${diningHallId}`, 'GET');
       const data = await res.json();
       setDiningHallDetail(data.diningHallDetails);
-      setFoodList(data.diningHallDetails.foods);
+
+      if (isToday) {
+        setFoodList(foods.filter((foodId, index) => foods.indexOf(foodId) === index));
+      } else {
+        setFoodList(data.diningHallDetails.foods);
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -34,8 +39,14 @@ const DiningHallDetail = ({ route, navigation }) => {
         diningHallName: diningHallDetail.name,
       });
       const data = await res.json();
-      console.log(data);
-      setFoodList(data.food.map((food) => food.id));
+
+      if (isToday) {
+        setFoodList(
+          data.food.map((food) => food.id).filter((foodId) => foods.indexOf(foodId) !== -1)
+        );
+      } else {
+        setFoodList(data.food.map((food) => food.id));
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -45,31 +56,31 @@ const DiningHallDetail = ({ route, navigation }) => {
 
   if (diningHallDetail === undefined) {
     return <Text>Loading...</Text>;
-  }
-
-  return (
-    <ScrollView>
-      <Input
-        placeholder="Search For Food"
-        value={searchInput}
-        onChangeText={(nextValue) => setSearchInput(nextValue)}
-      />
-      <Button style={styles.diningHallSearchBtn} onPress={handleSearchInput}>
-        Search
-      </Button>
-      <Card>
-        <Card.Title>Dining Hall: {diningHallDetail.name}</Card.Title>
-        <Card.Divider></Card.Divider>
-        <View>
+  } else {
+    return (
+      <ScrollView>
+        <Input
+          placeholder="Search For Food"
+          value={searchInput}
+          onChangeText={(nextValue) => setSearchInput(nextValue)}
+        />
+        <Button style={styles.diningHallSearchBtn} onPress={handleSearchInput}>
+          Search
+        </Button>
+        <Card>
+          <Card.Title>Dining Hall: {diningHallDetail.name}</Card.Title>
+          <Card.Divider></Card.Divider>
           <View>
-            {foodList.map((foodId) => {
-              return <DiningHallFoodCard key={foodId} foodId={foodId} navigation={navigation} />;
-            })}
+            <View>
+              {foodList.map((foodId) => {
+                return <DiningHallFoodCard key={foodId} foodId={foodId} navigation={navigation} />;
+              })}
+            </View>
           </View>
-        </View>
-      </Card>
-    </ScrollView>
-  );
+        </Card>
+      </ScrollView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

@@ -1,8 +1,7 @@
-import { View, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
-import React, { useRef, useState, useEffect } from 'react';
+import { View, ScrollView, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import tw from 'tailwind-react-native-classnames';
-import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
-import { Button, Input, IndexPath, Layout, Select, SelectItem } from '@ui-kitten/components';
+import { Button, Input, IndexPath } from '@ui-kitten/components';
 
 import fetchInstance from '../../utils/fetchInstance';
 import CustomCard from '../../components/CustomCard';
@@ -10,27 +9,52 @@ import CustomCard from '../../components/CustomCard';
 import LogoutButton from '../../components/auth/LogoutButton';
 
 const MenuScreen = ({ navigation }) => {
-  const [diningHalls, setDiningHalls] = useState([]);
+  const [todayMenuDetail, setTodayMenuDetail] = useState({});
   const [searchSelectedIndex, setSearchSelectedIndex] = React.useState(new IndexPath(0));
   const [searchInput, setSearchInput] = useState('');
 
-  const handleSearchInput = async () => {
-    navigation.navigate('search', { searchInput, searchId: 0 });
-  };
-
-  const handleDiningHallCardPress = (newDiningHallId) => {
-    navigation.navigate('diningHall', { diningHallId: newDiningHallId });
-  };
-
-  useEffect(async () => {
+  const fetchTodayMenu = async () => {
     try {
-      const res = await fetchInstance(`/api/diningHall/all`, 'GET');
+      const res = await fetchInstance('/api/menu/scrapMenuToday', 'POST', null, {});
       const data = await res.json();
-      setDiningHalls(data.allDiningHalls);
-    } catch (err) {
-      console.error(err.message);
+
+      setTodayMenuDetail(data.existingMenu);
+    } catch (error) {
+      console.log(error);
     }
-  }, []);
+  };
+
+  const handleSearchInput = async () => {
+    let todayFoodIds = [];
+    const todayDiningHalls = Object.keys(todayMenuDetail);
+
+    for (let i = 0; i < todayDiningHalls.length; i++) {
+      if (
+        todayDiningHalls[i] === '_id' ||
+        todayDiningHalls[i] === 'date' ||
+        todayDiningHalls[i] === '__v'
+      ) {
+        continue;
+      }
+      let singleDiningHall = todayDiningHalls[i];
+      if (todayMenuDetail[singleDiningHall]) {
+        todayFoodIds = todayFoodIds.concat(todayMenuDetail[singleDiningHall]);
+      }
+    }
+
+    navigation.navigate('search', {
+      searchInput,
+      searchId: 0,
+      isToday: true,
+      todayFoodIds,
+    });
+  };
+
+  const handleDiningHallCardPress = (newDiningHallId, isToday, foods) => {
+    navigation.navigate('diningHall', { diningHallId: newDiningHallId, isToday, foods });
+  };
+
+  useEffect(fetchTodayMenu, []);
 
   return (
     <View style={tw`flex-1`}>
@@ -53,7 +77,8 @@ const MenuScreen = ({ navigation }) => {
           text="The Study At Hedrick"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/HedrickStudy/hedrickstudy-logo.png"
           id="6201065115fcccb7b530545b"
-          isToday={false}
+          isToday={true}
+          foods={todayMenuDetail.HedrickStudy}
           handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
 
@@ -61,7 +86,8 @@ const MenuScreen = ({ navigation }) => {
           text="Rendezvous"
           url="https://menu.dining.ucla.edu/Content/Images/Menus/Rendezvous/rendezvous-logo.png"
           id="62010145877028b32701c9fc"
-          isToday={false}
+          isToday={true}
+          foods={todayMenuDetail.Rendevzous}
           handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
 
@@ -69,7 +95,8 @@ const MenuScreen = ({ navigation }) => {
           text="The Drey"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/Drey/drey-logo.png"
           id="62010159877028b32701ca02"
-          isToday={false}
+          isToday={true}
+          foods={todayMenuDetail.Drey}
           handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
 
@@ -77,7 +104,8 @@ const MenuScreen = ({ navigation }) => {
           text="Bruin Cafe"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/BruinCafe/bruincafe-logo.png"
           id="62010161877028b32701ca05"
-          isToday={false}
+          isToday={true}
+          foods={todayMenuDetail.BruinCafe}
           handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
 
@@ -85,7 +113,8 @@ const MenuScreen = ({ navigation }) => {
           text="Feast"
           url="http://menu.dining.ucla.edu/Content/Images/Menus/FeastSpiceKitchen/feastspicekitchen-logo.png?rev=2021-10-26b"
           id="62010152877028b32701c9ff"
-          isToday={false}
+          isToday={true}
+          foods={todayMenuDetail.FeastAtRieber}
           handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
       </ScrollView>

@@ -5,7 +5,7 @@ import FoodList from './FoodList';
 import DiningHallList from './DiningHallList';
 
 const SearchScreen = ({ route, navigation }) => {
-  const { searchInput, searchId } = route.params;
+  const { searchInput, searchId, isToday, todayFoodIds } = route.params;
   const [searchOutputs, setSearchOutputs] = useState([]);
 
   const getFoodSearchResult = async () => {
@@ -14,8 +14,16 @@ const SearchScreen = ({ route, navigation }) => {
         foodName: searchInput,
       });
       const data = await res.json();
-      setSearchOutputs(data.food);
-      console.log(res);
+
+      if (isToday) {
+        setSearchOutputs(
+          data.food.filter((food) => {
+            return todayFoodIds.indexOf(food.id) !== -1;
+          })
+        );
+      } else {
+        setSearchOutputs(data.food);
+      }
     } catch (err) {
       console.log('error' + err);
     }
@@ -34,7 +42,7 @@ const SearchScreen = ({ route, navigation }) => {
   };
 
   const search = async () => {
-    if (searchId.row === 0) {
+    if (searchId === 0) {
       getFoodSearchResult();
     } else {
       getDiningHallSearchResult();
@@ -43,13 +51,13 @@ const SearchScreen = ({ route, navigation }) => {
 
   useEffect(search, [searchInput, searchId]);
 
-  if (!searchId) {
+  if (searchId !== 0 && searchId !== 1) {
     return (
       <View>
         <Text>Loading...</Text>
       </View>
     );
-  } else if (searchId.row === 0) {
+  } else if (searchId === 0) {
     return <FoodList input={searchInput} data={searchOutputs} navigation={navigation} />;
   } else {
     return <DiningHallList input={searchInput} data={searchOutputs} navigation={navigation} />;

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { Text, Card, Rating } from 'react-native-elements';
+import { View, ScrollView } from 'react-native';
+import { Text, Card } from 'react-native-elements';
 import fetchInstance from '../../utils/fetchInstance';
+import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReviewCard from './UsrReviewCard';
+import useAuth from '../../hooks/useAuth';
 
 const UserDetail = ({ navigation }) => {
   const [userDetail, setUserDetail] = useState({});
   const [reviewDeletion, setReviewDeletion] = useState(0);
+  const [hasTokenExpired, setHasTokenExpired] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const isFocused = useIsFocused();
 
   const fetchUserInfo = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -17,47 +22,65 @@ const UserDetail = ({ navigation }) => {
       const res = await fetchInstance('/api/user/info', 'GET', token);
       const data = await res.json();
 
-      setUserDetail(data.user);
+      if (data.message && data.message === 'Authentication Failed') {
+        setHasTokenExpired(true);
+      } else {
+        setUserDetail(data.user);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
-  useEffect(fetchUserInfo, [reviewDeletion]);
+  useEffect(fetchUserInfo, [isFocused, reviewDeletion]);
 
-  return (
-    <ScrollView>
-      <Card>
-        <Card.Title>User: {userDetail.name}</Card.Title>
-        <Card.Divider></Card.Divider>
-        <View>
+  if (hasTokenExpired) {
+    return (
+      <ScrollView>
+        <Text>You session has ended. Please log in again to see your profile page</Text>
+      </ScrollView>
+    );
+  } else if (userDetail === undefined) {
+    return (
+      <ScrollView>
+        <Text>Loading...</Text>
+      </ScrollView>
+    );
+  } else {
+    return (
+      <ScrollView>
+        <Card>
+          <Card.Title>User: {userDetail.name}</Card.Title>
+          <Card.Divider></Card.Divider>
           <View>
-            <Card>
-              <Card.Title>Email: {userDetail.email}</Card.Title>
-            </Card>
+            <View>
+              <Card>
+                <Card.Title>Email: {userDetail.email}</Card.Title>
+              </Card>
 
-            <Card>
-              <Card.Title>Reviews:</Card.Title>
-              <Card.Divider />
-              {userDetail &&
-                userDetail.reviews &&
-                userDetail.reviews.map((reviewId) => {
-                  return (
-                    <ReviewCard
-                      key={reviewId}
-                      reviewId={reviewId}
-                      navigation={navigation}
-                      reviewDeletion={reviewDeletion}
-                      setReviewDeletion={setReviewDeletion}
-                    />
-                  );
-                })}
-            </Card>
+              <Card>
+                <Card.Title>Reviews:</Card.Title>
+                <Card.Divider />
+                {userDetail &&
+                  userDetail.reviews &&
+                  userDetail.reviews.map((reviewId) => {
+                    return (
+                      <ReviewCard
+                        key={reviewId}
+                        reviewId={reviewId}
+                        navigation={navigation}
+                        reviewDeletion={reviewDeletion}
+                        setReviewDeletion={setReviewDeletion}
+                      />
+                    );
+                  })}
+              </Card>
+            </View>
           </View>
-        </View>
-      </Card>
-    </ScrollView>
-  );
+        </Card>
+      </ScrollView>
+    );
+  }
 };
 
 export default UserDetail;

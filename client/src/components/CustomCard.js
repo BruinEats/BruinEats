@@ -3,7 +3,7 @@ import { View, Image, ScrollView } from 'react-native';
 import React from 'react';
 import tw from 'tailwind-react-native-classnames';
 
-const CustomCard = ({ text, url, id, handleOnPress }) => {
+const CustomCard = ({ text, url, id, isToday, foods, handleOnPress }) => {
   // const theme = useTheme();
 
   return (
@@ -12,7 +12,7 @@ const CustomCard = ({ text, url, id, handleOnPress }) => {
         tw`flex flex-col content-center w-full p-0`,
         // { backgroundColor: theme['color-primary-default']},
       ]}
-      onPress={() => handleOnPress(id)}
+      onPress={() => handleOnPress(id, isToday, foods)}
     >
       <Image
         style={tw`w-full h-40`}
