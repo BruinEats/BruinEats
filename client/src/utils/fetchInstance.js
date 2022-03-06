@@ -6,7 +6,7 @@ const fetchInstance = async (url, method, token, body) => {
     method: method,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token ? 'Bearer ' + token : '',
+      authentication: token ? token : '',
     },
     body: body ? JSON.stringify(body) : '',
   };

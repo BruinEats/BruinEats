@@ -88,8 +88,12 @@ export const AuthProvider = ({ children }) => {
       const data = await res.json();
       console.log(data);
 
-      await AsyncStorage.setItem('token', data.token);
-      await getUserInfo();
+      if (data.message === 'You must register with an ucla email') {
+        console.warn('You must use ucla email');
+      } else {
+        await AsyncStorage.setItem('token', data.token);
+        await getUserInfo();
+      }
     } catch (err) {
       console.error(err.response);
     }

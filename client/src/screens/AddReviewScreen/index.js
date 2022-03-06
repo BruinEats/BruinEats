@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Input } from '@ui-kitten/components';
 import axios from 'axios';
 
@@ -46,10 +47,12 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   const handleReviewSubmit = async () => {
     const data = { score: rating, comment, food: foodId, user: 'test@gmail.com' };
+    const token = await AsyncStorage.getItem('token');
 
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        authentication: token ? token : '',
       },
     };
     const reviewBody = JSON.stringify(data);
@@ -58,7 +61,11 @@ const AddReviewScreen = ({ route, navigation }) => {
     try {
       console.log(reviewBody);
       console.log(`${rootUrl}/api/food/${foodId}/add_review`);
-      const res = await axios.post(`${rootUrl}/api/food/${foodId}/add_review`, reviewBody, config);
+      const res = await axios.post(
+        `${rootUrl}/api/food/${foodId}/add_review`,
+        { data: reviewBody },
+        config
+      );
       console.log(res.data);
     } catch (err) {
       console.error(err.message);

@@ -62,6 +62,15 @@ const Tabs = () => {
     );
   };
 
+  const UserReviewNavigator = () => {
+    return (
+      <Stack.Navigator initialRouteName="userDetail">
+        <Stack.Screen name="foodDetail" component={FoodDetailScreen} />
+        <Stack.Screen name="userDetail" component={UserDetail} />
+      </Stack.Navigator>
+    );
+  };
+
   return (
     <Tab.Navigator initialRouteName="login">
       <Tab.Screen
@@ -77,7 +86,9 @@ const Tabs = () => {
       <Tab.Screen name="Today Menu" component={TodayMenuNavigator} />
       <Tab.Screen name="All Menu" component={AllMenuNavigator} />
 
-      <Tab.Screen name="user" component={UserDetail} />
+      <Tab.Screen name="addReviewTab" component={AddReviewScreen} />
+
+      <Tab.Screen name="user" component={UserReviewNavigator} />
 
       {/* <Tab.Screen
         name="menu"

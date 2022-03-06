@@ -78,7 +78,9 @@ module.exports.scrapMenuToday = async (req, res) => {
     if (existingMenu) {
       res.status(200).json({ existingMenu });
     } else {
-      const menuToday = new MenuModel({ date });
+      const menuToday = new MenuModel({
+        date,
+      });
 
       for await (const diningHall of diningHalls) {
         const foodNames = await getMenu(diningHall.link);

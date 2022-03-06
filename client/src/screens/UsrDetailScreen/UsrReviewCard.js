@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import { Button } from '@ui-kitten/components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import fetchInstance from '../../utils/fetchInstance';
 
 const ReviewCard = ({ reviewId, navigation, reviewDeletion, setReviewDeletion }) => {
@@ -13,6 +14,7 @@ const ReviewCard = ({ reviewId, navigation, reviewDeletion, setReviewDeletion })
       const res = await fetchInstance(`/api/review/${reviewId}`, 'GET');
       const data = await res.json();
 
+      console.log(data);
       setReviewDetail(data.review.review);
       setFoodName(data.review.foodName);
     } catch (error) {
@@ -22,10 +24,14 @@ const ReviewCard = ({ reviewId, navigation, reviewDeletion, setReviewDeletion })
 
   const handleReviewDeletion = async () => {
     try {
-      const res = await fetchInstance(`/api/food/${reviewDetail.food}/${reviewId}`, 'DELETE');
+      const token = await AsyncStorage.getItem('token');
+      const res = await fetchInstance(
+        `/api/food/${reviewDetail.food}/${reviewId}`,
+        'DELETE',
+        token
+      );
       const data = await res.json();
-
-      console.log(data);
+      setReviewDeletion(reviewDeletion + 1);
     } catch (error) {
       console.log(error);
     }

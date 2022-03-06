@@ -28,7 +28,7 @@ module.exports.register = async (req, res) => {
       password: hashedPassword,
       name,
     });
-    const token = jwt.sign({ email, id: newUser._id }, process.env.jwtSecret, {
+    const token = jwt.sign({ email, id: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: '7d',
     });
 
@@ -58,7 +58,7 @@ module.exports.signin = async (req, res) => {
 
     const token = jwt.sign(
       { email, id: signinUser._id },
-      process.env.jwtSecret,
+      process.env.JWT_SECRET,
       {
         expiresIn: '1d',
       }
@@ -104,7 +104,7 @@ module.exports.updateUsrInfo = async (req, res) => {
     await updatedUser.save();
     res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ error });
   }
 };
 

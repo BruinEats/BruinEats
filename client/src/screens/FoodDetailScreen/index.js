@@ -30,6 +30,7 @@ const FoodDetailScreen = ({ route, navigation }) => {
         setHasTokenExpired(true);
       } else {
         setUserDetail(data.user);
+        setHasTokenExpired(false);
       }
     } catch (error) {
       console.log(error.message);
