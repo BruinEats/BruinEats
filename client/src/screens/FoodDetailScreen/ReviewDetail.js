@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import fetchInstance from '../../utils/fetchInstance';
 
 const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
+
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
   const getReviewDetail = async () => {
     try {
@@ -18,6 +34,7 @@ const ReviewDetail = ({ reviewId }) => {
       }
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
   };
 

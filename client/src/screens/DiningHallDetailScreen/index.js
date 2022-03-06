@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import { Input, Button } from '@ui-kitten/components';
 
@@ -11,6 +11,22 @@ const DiningHallDetail = ({ route, navigation }) => {
   const [diningHallDetail, setDiningHallDetail] = useState({});
   const [foodList, setFoodList] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
   const fetchDiningHallDetail = async () => {
     try {
@@ -25,6 +41,7 @@ const DiningHallDetail = ({ route, navigation }) => {
       }
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
   };
 
@@ -49,6 +66,7 @@ const DiningHallDetail = ({ route, navigation }) => {
       }
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
   };
 

@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
 import tw from 'tailwind-react-native-classnames';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
@@ -13,6 +13,22 @@ const MenuScreen = ({ navigation }) => {
   const [diningHalls, setDiningHalls] = useState([]);
   const [searchSelectedIndex, setSearchSelectedIndex] = React.useState(new IndexPath(0));
   const [searchInput, setSearchInput] = useState('');
+
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
   const handleSearchInput = async () => {
     navigation.navigate('search', { searchInput, searchId: 0 });
@@ -29,6 +45,7 @@ const MenuScreen = ({ navigation }) => {
       setDiningHalls(data.allDiningHalls);
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
   }, []);
 

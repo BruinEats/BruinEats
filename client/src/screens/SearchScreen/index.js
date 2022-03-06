@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Alert } from 'react-native';
 import fetchInstance from '../../utils/fetchInstance';
 import FoodList from './FoodList';
 import DiningHallList from './DiningHallList';
@@ -7,6 +7,22 @@ import DiningHallList from './DiningHallList';
 const SearchScreen = ({ route, navigation }) => {
   const { searchInput, searchId, isToday, todayFoodIds } = route.params;
   const [searchOutputs, setSearchOutputs] = useState([]);
+
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
   const getFoodSearchResult = async () => {
     try {

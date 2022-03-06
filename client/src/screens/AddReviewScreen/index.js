@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Text, Card } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Input } from '@ui-kitten/components';
@@ -17,13 +17,29 @@ const AddReviewScreen = ({ route, navigation }) => {
   const [rating, setRating] = useState(2.5);
   const { isAuthenticated } = useAuth();
 
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
+
   const fetchFood = async () => {
     try {
       const res = await fetchInstance(`/api/food/${foodId}`, 'GET');
       const data = await res.json();
       setFoodDetail(data.food);
     } catch (err) {
-      console.error(err.message);
+      showAlert(err.message);
     }
   };
 
@@ -69,6 +85,7 @@ const AddReviewScreen = ({ route, navigation }) => {
       console.log(res.data);
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
 
     try {
@@ -76,6 +93,7 @@ const AddReviewScreen = ({ route, navigation }) => {
       console.log(res.data);
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
   };
 
@@ -85,40 +103,40 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   return (
     <>
-      {isAuthenticated ? (
-        <ScrollView>
-          <Card>
-            <Card.Title>Add Review For {foodDetail.name}</Card.Title>
-            <Card.Divider></Card.Divider>
-            <View>
-              <Input
-                style={styles.input}
-                value={rating.toString()}
-                onBlur={handleRating}
-                label="Rating"
-                placeholder="A number between 0 to 5"
-                onChangeText={(nextValue) => setRating(nextValue)}
-              />
+      {/* {isAuthenticated ? ( */}
+      <ScrollView>
+        <Card>
+          <Card.Title>Add Review For {foodDetail.name}</Card.Title>
+          <Card.Divider></Card.Divider>
+          <View>
+            <Input
+              style={styles.input}
+              value={rating.toString()}
+              onBlur={handleRating}
+              label="Rating"
+              placeholder="A number between 0 to 5"
+              onChangeText={(nextValue) => setRating(nextValue)}
+            />
 
-              <Input
-                style={styles.input}
-                value={comment}
-                multiline={true}
-                textStyle={{ minHeight: 80 }}
-                label="Comment"
-                placeholder="Place your Comment"
-                onChangeText={(nextValue) => setComment(nextValue)}
-              />
-            </View>
+            <Input
+              style={styles.input}
+              value={comment}
+              multiline={true}
+              textStyle={{ minHeight: 80 }}
+              label="Comment"
+              placeholder="Place your Comment"
+              onChangeText={(nextValue) => setComment(nextValue)}
+            />
+          </View>
 
-            <Button style={styles.addReviewBtn} onPress={handleReviewSubmit}>
-              Submit Review
-            </Button>
-          </Card>
-        </ScrollView>
-      ) : (
+          <Button style={styles.addReviewBtn} onPress={handleReviewSubmit}>
+            Submit Review
+          </Button>
+        </Card>
+      </ScrollView>
+      {/* ) : (
         <SignInScreen></SignInScreen>
-      )}
+      )} */}
     </>
   );
 };

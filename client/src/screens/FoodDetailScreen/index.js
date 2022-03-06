@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
@@ -11,6 +11,22 @@ const FoodDetailScreen = ({ route, navigation }) => {
   const [hasTokenExpired, setHasTokenExpired] = useState(false);
   const [foodDetail, setFoodDetail] = useState({});
 
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
+
   const fetchFood = async () => {
     try {
       const res = await fetchInstance(`/api/food/${foodId}`, 'GET');
@@ -18,6 +34,7 @@ const FoodDetailScreen = ({ route, navigation }) => {
       setFoodDetail(data.food);
     } catch (err) {
       console.error(err.message);
+      showAlert(err.message);
     }
   };
 

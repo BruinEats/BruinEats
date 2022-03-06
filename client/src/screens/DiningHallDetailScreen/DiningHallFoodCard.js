@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
 import axios from 'axios';
 
@@ -10,6 +10,22 @@ const FoodCard = ({ foodId, navigation }) => {
   const [foodName, setFoodName] = useState('');
   const [foodRating, setFoodRating] = useState(3.0);
 
+  const showAlert = (description) => {
+    Alert.alert(
+      'Error',
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
+
   const getFoodName = async () => {
     try {
       const res = await fetchInstance(`/api/food/name/${foodId}`, 'GET');
@@ -19,6 +35,7 @@ const FoodCard = ({ foodId, navigation }) => {
       setFoodRating(data.rating);
     } catch (err) {
       console.error(err);
+      showAlert(err.message);
     }
   };
 

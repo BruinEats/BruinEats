@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
   const getUserInfo = async () => {
     console.log('get user info');
     const token = await AsyncStorage.getItem('token');
+    console.log(token);
     if (token) {
       try {
         const res = await fetchInstance(`/api/user/info`, 'GET', token);
@@ -55,6 +56,8 @@ export const AuthProvider = ({ children }) => {
       } catch (err) {
         console.error(err);
       }
+    } else {
+      console.log('no token');
     }
   };
 
