@@ -192,8 +192,6 @@ module.exports.insertFoodReview = async (req, res) => {
     const { score, comment } = JSON.parse(req.body.data);
     const user = req.user.id;
 
-    console.log('here');
-
     const { _id } = req.params;
     const foodObj = await FoodModel.findOne({ _id });
     if (!foodObj) {

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { View, StyleSheet, Alert, Image } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
+import tw from 'tailwind-react-native-classnames';
 import fetchInstance from '../../utils/fetchInstance';
 
 const ReviewDetail = ({ reviewId }) => {
   const [reviewDetail, setReviewDetail] = useState({});
+  const [userName, setUserName] = useState('');
 
   const showAlert = (description) => {
     Alert.alert(
@@ -31,6 +33,7 @@ const ReviewDetail = ({ reviewId }) => {
 
       if (data && data.review && data.review.review) {
         setReviewDetail(data.review.review);
+        setUserName(data.review.userName);
       }
     } catch (err) {
       console.error(err.message);
@@ -46,7 +49,7 @@ const ReviewDetail = ({ reviewId }) => {
 
   return (
     <Card>
-      <Card.Title>{reviewDetail.user}</Card.Title>
+      <Card.Title>By User: {userName}</Card.Title>
       <Card.Divider></Card.Divider>
       <View style={styles.reviewContent}>
         <Text style={styles.reviewComment}>{reviewDetail.comment}</Text>
@@ -60,6 +63,17 @@ const ReviewDetail = ({ reviewId }) => {
           imageSize={40}
           style={{ paddingVertical: 10 }}
         />
+
+        {reviewDetail.imageUrl ? (
+          <Image
+            style={tw`w-full h-40`}
+            source={{
+              uri: reviewDetail.imageUrl,
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </View>
     </Card>
   );

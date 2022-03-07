@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Text, Card, Rating } from 'react-native-elements';
+import { useIsFocused } from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton';
 import ReviewDetail from './ReviewDetail';
 
@@ -10,6 +11,7 @@ const FoodDetailScreen = ({ route, navigation }) => {
   const { foodId } = route.params;
   const [hasTokenExpired, setHasTokenExpired] = useState(false);
   const [foodDetail, setFoodDetail] = useState({});
+  const isFocused = useIsFocused();
 
   const showAlert = (description) => {
     Alert.alert(
@@ -60,7 +62,7 @@ const FoodDetailScreen = ({ route, navigation }) => {
     }
   };
 
-  useEffect(fetchFood, [foodId]);
+  useEffect(fetchFood, [foodId, isFocused]);
 
   return (
     <ScrollView>
