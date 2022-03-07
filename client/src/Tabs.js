@@ -9,6 +9,7 @@ import MenuScreen from './screens/MenuScreen';
 import TodayMenuScreen from './screens/TodayMenuScreen';
 import FoodDetailScreen from './screens/FoodDetailScreen';
 import AddReviewScreen from './screens/AddReviewScreen';
+import TabAddReviewScreen from './screens/TabAddReviewScreen';
 import DiningHallDetail from './screens/DiningHallDetailScreen';
 import UserDetail from './screens/UsrDetailScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -86,7 +87,7 @@ const Tabs = () => {
       <Tab.Screen name="Today Menu" component={TodayMenuNavigator} />
       <Tab.Screen name="All Menu" component={AllMenuNavigator} />
 
-      <Tab.Screen name="addReviewTab" component={AddReviewScreen} />
+      <Tab.Screen name="addReviewTab" component={TabAddReviewScreen} />
 
       <Tab.Screen name="user" component={UserReviewNavigator} />
 

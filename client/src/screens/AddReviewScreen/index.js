@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
-import { Text, Card } from 'react-native-elements';
+import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { Card } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Input } from '@ui-kitten/components';
 import axios from 'axios';
 
 import fetchInstance from '../../utils/fetchInstance';
 import rootUrl from '../../utils/rootUrl';
-import useAuth from '../../hooks/useAuth';
-import SignInScreen from '../SignInScreen/SignInScreen';
+
+import UploadImage from './ImagePicker';
 
 const AddReviewScreen = ({ route, navigation }) => {
   const foodId = route.params ? route.params.foodId : '620107ce122592b88a203a9a';
   const [foodDetail, setFoodDetail] = useState({});
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(2.5);
-  const { isAuthenticated } = useAuth();
 
   const showAlert = (description) => {
     Alert.alert(
@@ -103,7 +102,6 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   return (
     <>
-      {/* {isAuthenticated ? ( */}
       <ScrollView>
         <Card>
           <Card.Title>Add Review For {foodDetail.name}</Card.Title>
@@ -129,6 +127,11 @@ const AddReviewScreen = ({ route, navigation }) => {
             />
           </View>
 
+          <View>
+            <Text style={styles.addImageTitle}>Upload an image: (optional)</Text>
+            <UploadImage />
+          </View>
+
           <Button style={styles.addReviewBtn} onPress={handleReviewSubmit}>
             Submit Review
           </Button>
@@ -148,6 +151,11 @@ const styles = StyleSheet.create({
   },
   addReviewBtn: {
     marginTop: 70,
+  },
+  addImageTitle: {
+    marginTop: 40,
+    marginBottom: 30,
+    fontWeight: 'bold',
   },
 });
 
