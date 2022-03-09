@@ -15,11 +15,11 @@ git clone https://github.com/BruinEats/BruinEats.git
 2. Install packages
 
 ```
-yarn install  // use 'npm install' if you are using npm
-cd client && yarn install
+npm install
+cd client && npm install
 ```
 
-3. Ask a member for MongoDB access
+3. Ask a contibutor for .env variables
 4. Install Prettier VScode extension
 5. Run the app on localhost
 
