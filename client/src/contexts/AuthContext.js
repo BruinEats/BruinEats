@@ -72,12 +72,12 @@ export const AuthProvider = ({ children }) => {
       console.log(email, password);
       const res = await fetchInstance(`/api/user/login`, 'POST', null, { email, password });
       const data = await res.json();
-      console.log(data);
 
       await AsyncStorage.setItem('token', data.token);
       await getUserInfo();
+      return ['login success', 'success'];
     } catch (err) {
-      console.log(err.response);
+      return [err.message, 'error'];
     }
   };
 

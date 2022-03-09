@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import Logo from '../../../assets/favicon.png';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import axios from 'axios';
-import rootUrl from '../../utils/rootUrl';
 import { Input } from '@ui-kitten/components';
+import { Alert } from 'react-native';
 
 import useAuth from '../../hooks/useAuth';
 
@@ -15,18 +14,37 @@ const SignInScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const { logIn } = useAuth();
 
-  const handleLogin = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify({ email, password });
-    console.log(body);
+  const showAlert = (description, status) => {
+    Alert.alert(
+      status,
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
 
-    console.log(`${rootUrl}/api/user/login`);
-    const res = await axios.post(`http://localhost:5000/api/user/login`, body, config);
-    console.log(res.data);
+  const handleLogin = async (email, password) => {
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // };
+    // const body = JSON.stringify({ email, password });
+    // console.log(body);
+
+    // console.log(`${rootUrl}/api/user/login`);
+    // const res = await axios.post(`http://localhost:5000/api/user/login`, body, config);
+    // console.log(res.data);
+
+    const [text, type] = await logIn(email, password);
+    showAlert(text, type);
   };
 
   return (
@@ -46,7 +64,7 @@ const SignInScreen = ({ navigation }) => {
         secureTextEntry={true}
       />
       <CustomButton
-        onPress={() => logIn(email, password)}
+        onPress={() => handleLogin(email, password)}
         text="Sign in"
         type="Primary"
         bgColor={'blue'}
