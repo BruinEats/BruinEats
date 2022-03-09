@@ -72,25 +72,66 @@ const Tabs = () => {
     );
   };
 
+  const size = 22;
+
   return (
     <Tab.Navigator initialRouteName="login">
       <Tab.Screen
         name="login"
         component={SignInScreen}
         options={{
-          tabBarIcon: (tabInfo) => <Ionicons name="home" size={18} color={tabInfo.tintColor} />,
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="person-add-outline" size={size} color={tabInfo.tintColor} />
+          ),
         }}
       />
 
-      <Tab.Screen name="register" component={SignUpScreen} />
+      <Tab.Screen
+        name="register"
+        component={SignUpScreen}
+        options={{
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="person-add-outline" size={size} color={tabInfo.tintColor} />
+          ),
+        }}
+      />
 
-      <Tab.Screen name="Today Menu" component={TodayMenuNavigator} />
-      <Tab.Screen name="All Menu" component={AllMenuNavigator} />
+      <Tab.Screen
+        name="Today Menu"
+        component={TodayMenuNavigator}
+        options={{
+          tabBarIcon: (tabInfo) => <Ionicons name="home" size={size} color={tabInfo.tintColor} />,
+        }}
+      />
+      <Tab.Screen
+        name="All Menu"
+        component={AllMenuNavigator}
+        options={{
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="restaurant" size={size} color={tabInfo.tintColor} />
+          ),
+        }}
+      />
 
-      <Tab.Screen name="addReviewTab" component={TabAddReviewScreen} />
+      <Tab.Screen
+        name="addReviewTab"
+        component={TabAddReviewScreen}
+        options={{
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="add-circle" size={size} color={tabInfo.tintColor} />
+          ),
+        }}
+      />
 
-      <Tab.Screen name="user" component={UserReviewNavigator} />
-
+      <Tab.Screen
+        name="user"
+        component={UserReviewNavigator}
+        options={{
+          tabBarIcon: (tabInfo) => (
+            <Ionicons name="person-circle-outline" size={size} color={tabInfo.tintColor} />
+          ),
+        }}
+      />
       {/* <Tab.Screen
         name="menu"
         component={MenuScreen}
