@@ -28,6 +28,14 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Upload photo to review requires the access to your photo library."
+        }
+      ]
+    ]
   }
 }

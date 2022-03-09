@@ -189,6 +189,7 @@ module.exports.removeFood = async (req, res) => {
 
 module.exports.insertFoodReview = async (req, res) => {
   try {
+    console.log(req.body.data);
     const { score, comment } = JSON.parse(req.body.data);
     const user = req.user.id;
 
@@ -203,6 +204,7 @@ module.exports.insertFoodReview = async (req, res) => {
 
     let imageUrl = '';
     let imageId = '';
+    console.log(req.file);
     if (req.file) {
       const fileName = req.file.originalname.substring(
         0,
@@ -235,6 +237,7 @@ module.exports.insertFoodReview = async (req, res) => {
 
     res.status(200).json({ review });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error });
   }
 };

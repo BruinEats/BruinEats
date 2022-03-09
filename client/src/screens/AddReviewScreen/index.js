@@ -9,6 +9,7 @@ import fetchInstance from '../../utils/fetchInstance';
 import rootUrl from '../../utils/rootUrl';
 
 import UploadImage from './ImagePicker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 const AddReviewScreen = ({ route, navigation }) => {
   const foodId = route.params ? route.params.foodId : '620107ce122592b88a203a9a';
@@ -43,6 +44,11 @@ const AddReviewScreen = ({ route, navigation }) => {
   };
 
   useEffect(fetchFood, []);
+
+  const handlePhotoUpload = async () => {
+    const result = await launchImageLibrary({ mediaType: 'photo' });
+    console.log(result);
+  };
 
   const handleRating = () => {
     if (isNaN(rating)) {
@@ -129,7 +135,8 @@ const AddReviewScreen = ({ route, navigation }) => {
 
           <View>
             <Text style={styles.addImageTitle}>Upload an image: (optional)</Text>
-            <UploadImage />
+            {/* <UploadImage /> */}
+            <Button onClick={() => handlePhotoUpload}>Upload Photo</Button>
           </View>
 
           <Button style={styles.addReviewBtn} onPress={handleReviewSubmit}>
