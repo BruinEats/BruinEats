@@ -6,8 +6,6 @@ import { Button, Input, IndexPath } from '@ui-kitten/components';
 import fetchInstance from '../../utils/fetchInstance';
 import CustomCard from '../../components/CustomCard';
 
-import LogoutButton from '../../components/auth/LogoutButton';
-
 const MenuScreen = ({ navigation }) => {
   const [todayMenuDetail, setTodayMenuDetail] = useState({});
   const [searchSelectedIndex, setSearchSelectedIndex] = React.useState(new IndexPath(0));
@@ -58,7 +56,6 @@ const MenuScreen = ({ navigation }) => {
 
   return (
     <View style={tw`flex-1`}>
-      <LogoutButton />
       <Input
         placeholder="Search For Food"
         value={searchInput}
