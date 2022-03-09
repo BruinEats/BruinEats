@@ -1,2 +1,2 @@
-const rootUrl = 'http://192.168.112.1:5000';
+const rootUrl = 'http://localhost:5000';
 export default rootUrl;
