@@ -104,17 +104,13 @@ const FoodDetailScreen = ({ route, navigation }) => {
         </View>
       </Card>
 
-      <Card>
-        <Card.Title>Reviews</Card.Title>
-        <Card.Divider></Card.Divider>
-        <View>
-          {foodDetail &&
-            foodDetail.reviews &&
-            foodDetail.reviews.map((review) => {
-              return <ReviewDetail key={review} reviewId={review} />;
-            })}
-        </View>
-      </Card>
+      <View>
+        {foodDetail &&
+          foodDetail.reviews &&
+          foodDetail.reviews.map((review) => {
+            return <ReviewDetail key={review} reviewId={review} />;
+          })}
+      </View>
 
       <View style={styles.addReviewArea}>
         <CustomButton
