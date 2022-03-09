@@ -249,10 +249,20 @@ module.exports.removeFoodReview = async (req, res) => {
       });
     }
 
+    const review = await ReviewModel.findById(reviewIdToRemove);
+
     const food = await FoodModel.findOne({ _id });
     food.reviews = food.reviews.filter(
       (reviewId) => String(reviewId) !== String(reviewIdToRemove)
     );
+
+    let totalScore = food.rating * food.numRated;
+    if (food.numRated && food.numRated > 0) {
+      food.numRated -= 1;
+      totalScore -= review.score;
+    }
+    food.rating = totalScore;
+
     await food.save();
 
     const { user } = req;
