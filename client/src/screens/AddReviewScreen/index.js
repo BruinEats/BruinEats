@@ -6,7 +6,7 @@ import { Button, Input } from '@ui-kitten/components';
 import axios from 'axios';
 
 import fetchInstance from '../../utils/fetchInstance';
-import rootUrl from '../../utils/rootUrl';
+import { ROOT_URL } from '@env';
 
 import UploadImage from './ImagePicker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -80,10 +80,8 @@ const AddReviewScreen = ({ route, navigation }) => {
     const ratingBody = JSON.stringify({ rating });
 
     try {
-      console.log(reviewBody);
-      console.log(`${rootUrl}/api/food/${foodId}/add_review`);
       const res = await axios.post(
-        `${rootUrl}/api/food/${foodId}/add_review`,
+        `${ROOT_URL}/api/food/${foodId}/add_review`,
         { data: reviewBody },
         config
       );
@@ -94,7 +92,7 @@ const AddReviewScreen = ({ route, navigation }) => {
     }
 
     try {
-      const res = await axios.post(`${rootUrl}/api/food/${foodId}/add_rating`, ratingBody, config);
+      const res = await axios.post(`${ROOT_URL}/api/food/${foodId}/add_rating`, ratingBody, config);
       console.log(res.data);
     } catch (err) {
       console.error(err.message);

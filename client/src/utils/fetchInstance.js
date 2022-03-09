@@ -1,6 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ROOT_URL } from '@env';
 
-import rootUrl from './rootUrl';
 const fetchInstance = async (url, method, token, body) => {
   const options = {
     method: method,
@@ -12,7 +11,7 @@ const fetchInstance = async (url, method, token, body) => {
   };
   // console.log(options);
 
-  return fetch(rootUrl + url, options);
+  return fetch(ROOT_URL + url, options);
 };
 
 export default fetchInstance;

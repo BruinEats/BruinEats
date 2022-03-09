@@ -7,7 +7,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 
 import fetchInstance from '../../utils/fetchInstance';
-import rootUrl from '../../utils/rootUrl';
+import { ROOT_URL } from '@env';
 
 import UploadImage from './ImagePicker';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -133,7 +133,10 @@ const AddReviewScreen = ({ route, navigation }) => {
     };
 
     try {
-      const res = await fetch(`${rootUrl}/api/food/${foodDetail['_id']}/add_review`, reviewOptions);
+      const res = await fetch(
+        `${ROOT_URL}/api/food/${foodDetail['_id']}/add_review`,
+        reviewOptions
+      );
       const data = await res.json();
       console.log(data);
     } catch (err) {
@@ -142,7 +145,10 @@ const AddReviewScreen = ({ route, navigation }) => {
     }
 
     try {
-      const res = await fetch(`${rootUrl}/api/food/${foodDetail['_id']}/add_rating`, ratingOptions);
+      const res = await fetch(
+        `${ROOT_URL}/api/food/${foodDetail['_id']}/add_rating`,
+        ratingOptions
+      );
       const data = await res.json();
       console.log(data);
     } catch (err) {

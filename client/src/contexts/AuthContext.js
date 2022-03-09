@@ -1,5 +1,4 @@
 import { createContext, useEffect, useReducer } from 'react';
-import rootUrl from '../utils/rootUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import fetchInstance from '../utils/fetchInstance';

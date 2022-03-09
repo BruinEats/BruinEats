@@ -4,7 +4,6 @@ import { Text, Card, Rating } from 'react-native-elements';
 import axios from 'axios';
 
 import fetchInstance from '../../utils/fetchInstance';
-import rootUrl from '../../utils/rootUrl';
 
 const FoodCard = ({ foodId, navigation }) => {
   const [foodName, setFoodName] = useState('');
