@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, ScrollView, TextInput } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TextInput, Alert } from 'react-native';
 import React, { useState } from 'react';
 //TODO: CHANGE favicon.png TO BRUINEATS LOGO
 import Logo from '../../../assets/favicon.png';
@@ -16,17 +16,32 @@ const SignUpScreen = ({ navigation }) => {
   // const [passwordR, setPasswordR] = useState('');
   const { register } = useAuth();
 
-  const onSignUpPressed = () => {
-    console.warn('Sign Up Pressed');
-  };
-  const onSignInPressed = () => {
-    console.warn('Sign In Pressed');
-  };
   const onTermOfUsePressed = () => {
     console.warn('Term of Use Pressed');
   };
   const onPrivacyPolicyPressed = () => {
     console.warn('Privacy Policy Pressed');
+  };
+
+  const showAlert = (description, status) => {
+    Alert.alert(
+      status,
+      description,
+      [
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    );
+  };
+
+  const handleRegister = async (email, username, password) => {
+    const [text, type] = await register(email, username, password);
+    showAlert(text, type);
   };
 
   return (
@@ -75,7 +90,7 @@ const SignUpScreen = ({ navigation }) => {
        */}
 
       <CustomButton
-        onPress={() => register(email, username, password)}
+        onPress={() => handleRegister(email, username, password)}
         text="Sign up"
         type="Primary"
         bgColor={'blue'}

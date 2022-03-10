@@ -67,37 +67,34 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const logIn = async (email, password) => {
+    console.log(email, password);
+    const res = await fetchInstance(`/api/user/login`, 'POST', null, { email, password });
+    const data = await res.json();
     try {
-      console.log(email, password);
-      const res = await fetchInstance(`/api/user/login`, 'POST', null, { email, password });
-      const data = await res.json();
-
       await AsyncStorage.setItem('token', data.token);
       await getUserInfo();
       return ['login success', 'success'];
     } catch (err) {
-      return [err.message, 'error'];
+      console.error(err);
+      return [data.message, 'error'];
     }
   };
 
   const register = async (email, name, password) => {
+    const res = await fetchInstance(`/api/user/register`, 'POST', null, {
+      name,
+      email,
+      password,
+    });
+    const data = await res.json();
+    console.log(data);
     try {
-      const res = await fetchInstance(`/api/user/register`, 'POST', null, {
-        name,
-        email,
-        password,
-      });
-      const data = await res.json();
-      console.log(data);
-
-      if (data.message === 'You must register with an ucla email') {
-        console.warn('You must use ucla email');
-      } else {
-        await AsyncStorage.setItem('token', data.token);
-        await getUserInfo();
-      }
+      await AsyncStorage.setItem('token', data.token);
+      await getUserInfo();
+      return ['register success', 'success'];
     } catch (err) {
-      console.error(err.response);
+      console.error(err);
+      return [data.message, 'error'];
     }
   };
 
