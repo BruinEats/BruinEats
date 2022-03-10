@@ -9,8 +9,6 @@ import FormData from 'form-data';
 import fetchInstance from '../../utils/fetchInstance';
 import { ROOT_URL } from '@env';
 
-import UploadImage from './ImagePicker';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
 
 const diningHalls = [
@@ -60,11 +58,6 @@ const AddReviewScreen = ({ route, navigation }) => {
     );
   };
 
-  const handlePhotoUpload = async () => {
-    const result = await launchImageLibrary({ mediaType: 'photo' });
-    console.log(result);
-  };
-
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -98,7 +91,7 @@ const AddReviewScreen = ({ route, navigation }) => {
   };
 
   const handleReviewSubmit = async () => {
-    const data = { score: rating, comment, food: foodDetail['_id'], user: 'test@gmail.com' };
+    const data = { score: rating, comment, food: foodDetail['_id'] };
     const token = await AsyncStorage.getItem('token');
 
     const reviewBody = JSON.stringify(data);
@@ -284,7 +277,6 @@ const AddReviewScreen = ({ route, navigation }) => {
                 <View>
                   <View>
                     <Text style={styles.addImageTitle}>Upload an image: (optional)</Text>
-                    {/* <UploadImage /> */}
                     <Button onPress={() => pickImage()}>Upload Photo</Button>
                     {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                   </View>

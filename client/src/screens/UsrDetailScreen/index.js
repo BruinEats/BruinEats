@@ -6,6 +6,7 @@ import { useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ReviewCard from './UsrReviewCard';
 import useAuth from '../../hooks/useAuth';
+import LogoutButton from '../../components/auth/LogoutButton';
 
 const UserDetail = ({ navigation }) => {
   const [userDetail, setUserDetail] = useState({});
@@ -52,33 +53,22 @@ const UserDetail = ({ navigation }) => {
       <ScrollView>
         <Card>
           <Card.Title>User: {userDetail.name}</Card.Title>
-          <Card.Divider></Card.Divider>
-          <View>
-            <View>
-              <Card>
-                <Card.Title>Email: {userDetail.email}</Card.Title>
-              </Card>
-
-              <Card>
-                <Card.Title>Reviews:</Card.Title>
-                <Card.Divider />
-                {userDetail &&
-                  userDetail.reviews &&
-                  userDetail.reviews.map((reviewId) => {
-                    return (
-                      <ReviewCard
-                        key={reviewId}
-                        reviewId={reviewId}
-                        navigation={navigation}
-                        reviewDeletion={reviewDeletion}
-                        setReviewDeletion={setReviewDeletion}
-                      />
-                    );
-                  })}
-              </Card>
-            </View>
-          </View>
+          <Card.Title>Email: {userDetail.email}</Card.Title>
+          <LogoutButton />
         </Card>
+        {userDetail &&
+          userDetail.reviews &&
+          userDetail.reviews.map((reviewId) => {
+            return (
+              <ReviewCard
+                key={reviewId}
+                reviewId={reviewId}
+                navigation={navigation}
+                reviewDeletion={reviewDeletion}
+                setReviewDeletion={setReviewDeletion}
+              />
+            );
+          })}
       </ScrollView>
     );
   }

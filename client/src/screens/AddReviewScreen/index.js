@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Alert, Image } from 'react-native';
 import { Card } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Input } from '@ui-kitten/components';
@@ -8,14 +8,15 @@ import axios from 'axios';
 import fetchInstance from '../../utils/fetchInstance';
 import { ROOT_URL } from '@env';
 
-import UploadImage from './ImagePicker';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
+import FormData from 'form-data';
 
 const AddReviewScreen = ({ route, navigation }) => {
   const foodId = route.params ? route.params.foodId : '620107ce122592b88a203a9a';
   const [foodDetail, setFoodDetail] = useState({});
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(2.5);
+  const [image, setImage] = useState(null);
 
   const showAlert = (description) => {
     Alert.alert(
@@ -45,9 +46,20 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   useEffect(fetchFood, []);
 
-  const handlePhotoUpload = async () => {
-    const result = await launchImageLibrary({ mediaType: 'photo' });
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
     console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
   };
 
   const handleRating = () => {
@@ -67,33 +79,53 @@ const AddReviewScreen = ({ route, navigation }) => {
   };
 
   const handleReviewSubmit = async () => {
-    const data = { score: rating, comment, food: foodId, user: 'test@gmail.com' };
+    const data = { score: rating, comment, food: foodId };
     const token = await AsyncStorage.getItem('token');
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        authentication: token ? token : '',
-      },
-    };
     const reviewBody = JSON.stringify(data);
     const ratingBody = JSON.stringify({ rating });
 
+    const formData = new FormData();
+    formData.append('image', {
+      // @ts-ignore
+      uri: image, // Don't replace the file with ''..
+      name: 'test.jpg',
+      type: 'image/jpg',
+    });
+    formData.append('data', reviewBody);
+    console.log(formData);
+
+    const reviewOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        authentication: token,
+      },
+      body: formData,
+    };
+
+    const ratingOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authentication: token,
+      },
+      body: ratingBody,
+    };
+
     try {
-      const res = await axios.post(
-        `${ROOT_URL}/api/food/${foodId}/add_review`,
-        { data: reviewBody },
-        config
-      );
-      console.log(res.data);
+      const res = await fetch(`${ROOT_URL}/api/food/${foodId}/add_review`, reviewOptions);
+      const data = await res.json();
+      console.log(data);
     } catch (err) {
       console.error(err.message);
-      showAlert(err.message);
+      // showAlert(err.message);
     }
 
     try {
-      const res = await axios.post(`${ROOT_URL}/api/food/${foodId}/add_rating`, ratingBody, config);
-      console.log(res.data);
+      const res = await fetch(`${ROOT_URL}/api/food/${foodId}/add_rating`, ratingOptions);
+      const data = await res.json();
+      console.log(data);
     } catch (err) {
       console.error(err.message);
       showAlert(err.message);
@@ -133,8 +165,8 @@ const AddReviewScreen = ({ route, navigation }) => {
 
           <View>
             <Text style={styles.addImageTitle}>Upload an image: (optional)</Text>
-            {/* <UploadImage /> */}
-            <Button onClick={() => handlePhotoUpload}>Upload Photo</Button>
+            <Button onPress={() => pickImage()}>Upload Photo</Button>
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           </View>
 
           <Button style={styles.addReviewBtn} onPress={handleReviewSubmit}>
