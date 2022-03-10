@@ -22,6 +22,7 @@ const UserDetail = ({ navigation }) => {
     try {
       const res = await fetchInstance('/api/user/info', 'GET', token);
       const data = await res.json();
+      console.log(data);
 
       if (data.message && data.message === 'Authentication Failed') {
         setHasTokenExpired(true);

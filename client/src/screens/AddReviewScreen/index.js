@@ -18,9 +18,9 @@ const AddReviewScreen = ({ route, navigation }) => {
   const [rating, setRating] = useState(2.5);
   const [image, setImage] = useState(null);
 
-  const showAlert = (description) => {
+  const showAlert = (description, type) => {
     Alert.alert(
-      'Error',
+      type,
       description,
       [
         {
@@ -126,9 +126,10 @@ const AddReviewScreen = ({ route, navigation }) => {
       const res = await fetch(`${ROOT_URL}/api/food/${foodId}/add_rating`, ratingOptions);
       const data = await res.json();
       console.log(data);
+      showAlert('review added', 'success');
     } catch (err) {
       console.error(err.message);
-      showAlert(err.message);
+      showAlert(err.message, 'error');
     }
   };
 

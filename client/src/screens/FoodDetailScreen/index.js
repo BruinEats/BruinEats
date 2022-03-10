@@ -67,10 +67,6 @@ const FoodDetailScreen = ({ route, navigation }) => {
   return (
     <ScrollView>
       <Card>
-        <Card.Title>Images</Card.Title>
-      </Card>
-
-      <Card>
         <Card.Title>Food Previews</Card.Title>
         <Card.Divider></Card.Divider>
         <View>
