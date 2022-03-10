@@ -42,9 +42,9 @@ const AddReviewScreen = ({ route, navigation }) => {
 
   const [image, setImage] = useState(null);
 
-  const showAlert = (description) => {
+  const showAlert = (description, type) => {
     Alert.alert(
-      'Error',
+      type,
       description,
       [
         {
@@ -91,19 +91,21 @@ const AddReviewScreen = ({ route, navigation }) => {
   };
 
   const handleReviewSubmit = async () => {
-    const data = { score: rating, comment, food: foodDetail['_id'] };
+    const data = { score: parseFloat(rating), comment, food: foodDetail['_id'] };
     const token = await AsyncStorage.getItem('token');
 
     const reviewBody = JSON.stringify(data);
-    const ratingBody = JSON.stringify({ rating });
+    const ratingBody = JSON.stringify({ rating: parseFloat(rating) });
 
     const formData = new FormData();
-    formData.append('image', {
-      // @ts-ignore
-      uri: image, // Don't replace the file with ''..
-      name: 'test.jpg',
-      type: 'image/jpg',
-    });
+    if (image) {
+      formData.append('image', {
+        // @ts-ignore
+        uri: image, // Don't replace the file with ''..
+        name: 'test.jpg',
+        type: 'image/jpg',
+      });
+    }
     formData.append('data', reviewBody);
     console.log(formData);
 
@@ -144,6 +146,7 @@ const AddReviewScreen = ({ route, navigation }) => {
       );
       const data = await res.json();
       console.log(data);
+      showAlert('review added', 'success');
     } catch (err) {
       console.error(err.message);
       showAlert(err.message);

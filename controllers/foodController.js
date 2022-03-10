@@ -218,7 +218,7 @@ module.exports.insertFoodReview = async (req, res) => {
     }
 
     const review = new ReviewModel({
-      score,
+      score: parseFloat(score),
       comment,
       user,
       food,
@@ -259,12 +259,14 @@ module.exports.removeFoodReview = async (req, res) => {
       (reviewId) => String(reviewId) !== String(reviewIdToRemove)
     );
 
-    let totalScore = food.rating * food.numRated;
-    if (food.numRated && food.numRated > 0) {
-      food.numRated -= 1;
+    food.numRated -= 1;
+    if (food.numRated === 0) {
+      food.rating = 0;
+    } else {
+      let totalScore = food.rating * (food.numRated + 1);
       totalScore -= review.score;
+      food.rating = totalScore / food.numRated;
     }
-    food.rating = totalScore;
 
     await food.save();
 
@@ -288,16 +290,19 @@ module.exports.removeFoodReview = async (req, res) => {
 module.exports.addFoodRating = async (req, res) => {
   try {
     const { rating } = req.body;
+    console.log(rating, typeof rating);
     const { _id } = req.params;
 
     const food = await FoodModel.findById(_id);
+    console.log(food.rating, food.numRated);
 
     if (food.numRated !== null && food.rating !== null) {
       food.rating =
-        (food.rating * food.numRated + rating) / (food.numRated + 1);
+        (food.rating * food.numRated + parseFloat(rating)) /
+        (food.numRated + 1);
       food.numRated += 1;
     } else {
-      food.rating = rating;
+      food.rating = parseFloat(rating);
       food.numRated = 1;
     }
 

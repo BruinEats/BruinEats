@@ -83,15 +83,17 @@ const AddReviewScreen = ({ route, navigation }) => {
     const token = await AsyncStorage.getItem('token');
 
     const reviewBody = JSON.stringify(data);
-    const ratingBody = JSON.stringify({ rating });
+    const ratingBody = JSON.stringify({ rating: parseFloat(rating) });
 
     const formData = new FormData();
-    formData.append('image', {
-      // @ts-ignore
-      uri: image, // Don't replace the file with ''..
-      name: 'test.jpg',
-      type: 'image/jpg',
-    });
+    if (image) {
+      formData.append('image', {
+        // @ts-ignore
+        uri: image, // Don't replace the file with ''..
+        name: 'test.jpg',
+        type: 'image/jpg',
+      });
+    }
     formData.append('data', reviewBody);
     console.log(formData);
 
