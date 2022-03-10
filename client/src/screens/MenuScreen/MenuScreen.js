@@ -102,6 +102,31 @@ const MenuScreen = ({ navigation }) => {
           isToday={false}
           handleOnPress={handleDiningHallCardPress}
         ></CustomCard>
+
+        <CustomCard
+          text="De Neve"
+          url="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSstV6zo2wn0mfdKuXFbOIv9Eg6dTEYqOjgifHY78OFs9F5tfyg5zjMbOq1psG7v5223dk&usqp=CAU"
+          id="<CustomCard
+          "
+          isToday={false}
+          handleOnPress={handleDiningHallCardPress}
+        ></CustomCard>
+
+        <CustomCard
+          text="Epicuria"
+          url="https://asucla.ucla.edu/v2/wp-content/uploads/2021/10/epicuria-300x153.jpg"
+          id="62010530c23b80b6ae530ddd"
+          isToday={false}
+          handleOnPress={handleDiningHallCardPress}
+        ></CustomCard>
+
+        <CustomCard
+          text="Bruin Plate"
+          url="https://s3.amazonaws.com/cms.ipressroom.com/173/files/20143/534d978abd26f552ab000554_BruinPlate_Logo_FullColor/BruinPlate_Logo_FullColor_41db8eb4-2f25-41fa-9d71-ff19f2170580-prv.jpg"
+          id="6201052ac23b80b6ae530dda"
+          isToday={false}
+          handleOnPress={handleDiningHallCardPress}
+        ></CustomCard>
       </ScrollView>
     </View>
   );
