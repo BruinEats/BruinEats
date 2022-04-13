@@ -6,7 +6,7 @@ import { Button, Input } from '@ui-kitten/components';
 import axios from 'axios';
 
 import fetchInstance from '../../utils/fetchInstance';
-import { ROOT_URL } from '@env';
+import { ROOT_URL } from '../../utils/params';
 
 import * as ImagePicker from 'expo-image-picker';
 import FormData from 'form-data';

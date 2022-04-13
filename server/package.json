@@ -1,0 +1,50 @@
+{
+  "name": "BruinEats",
+  "version": "1.0.1",
+  "description": "App for ucla students to see daily menu of dinning halls with reviews and pictures",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server --delay 500ms app.js",
+    "client": "expo start client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start-dev": "nodemon app.js"
+  },
+  "author": "BruinEats Team",
+  "license": "MIT",
+  "dependencies": {
+    "all": "^0.0.0",
+    "axios": "^0.21.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.28.1",
+    "config": "^3.3.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-validator": "^6.8.1",
+    "gridfs-stream": "^1.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.14",
+    "multer": "^1.4.4",
+    "multer-gridfs-storage": "^5.0.2",
+    "puppeteer": "^13.1.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "concurrently": "^5.3.0",
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-node": "^4.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "nodemon": "^2.0.15",
+    "postcss": "^8.4.6",
+    "prettier": "^2.5.1",
+    "tailwindcss": "^3.0.19"
+  }
+}

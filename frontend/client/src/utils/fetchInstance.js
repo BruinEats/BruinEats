@@ -1,4 +1,4 @@
-import { ROOT_URL } from '@env';
+import { ROOT_URL } from './params';
 
 const fetchInstance = async (url, method, token, body) => {
   const options = {
@@ -9,7 +9,6 @@ const fetchInstance = async (url, method, token, body) => {
     },
     body: body ? JSON.stringify(body) : '',
   };
-  // console.log(options);
 
   return fetch(ROOT_URL + url, options);
 };

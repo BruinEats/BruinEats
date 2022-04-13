@@ -7,7 +7,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 
 import fetchInstance from '../../utils/fetchInstance';
-import { ROOT_URL } from '@env';
+import { ROOT_URL } from '../../utils/params';
 
 import * as ImagePicker from 'expo-image-picker';
 

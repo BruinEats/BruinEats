@@ -65,6 +65,7 @@ const DiningHallDetail = ({ route, navigation }) => {
         setFoodList(data.food.map((food) => food.id));
       }
     } catch (err) {
+      console.log(err);
       console.error(err.message);
       showAlert(err.message);
     }
