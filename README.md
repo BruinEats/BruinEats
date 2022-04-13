@@ -38,7 +38,3 @@ git checkout -b <branch_name>
 ```
 
 After the new feature is been completed, start a pull request to the master branch on github, and request review from JeffreytheCoder or RandomY-2
-
-# Documentations
-
-User Endpoints: https://documenter.getpostman.com/view/14215124/UVeGs6Pe
