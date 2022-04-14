@@ -24,8 +24,13 @@ cd client && npm install
 5. Run the app on localhost
 
 ```
+cd server
 npm run server
-npm run client  // in another terminal
+```
+```
+// in another terminal
+cd frontend
+npm run client  
 ```
 
 # Develop new features
