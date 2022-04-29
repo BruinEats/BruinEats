@@ -6,7 +6,6 @@ import { FoodModule } from './food/food.module';
 import { DiningHallModule } from './dining-hall/dining-hall.module';
 import { UserModule } from './user/user.module';
 import { SearchModule } from './search/search.module';
-import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { ReviewModule } from './review/review.module';
     DiningHallModule,
     UserModule,
     SearchModule,
-    ReviewModule,
   ],
   controllers: [],
   providers: [],

@@ -13,13 +13,13 @@ export class ConfigService {
       },
       transport: Transport.TCP,
     };
-    // this.envConfig.mlService = {
-    //   options: {
-    //     port: process.env.ML_SERVICE_PORT,
-    //     host: process.env.ML_SERVICE_HOST,
-    //   },
-    //   transport: Transport.TCP,
-    // };
+    this.envConfig.mlService = {
+      options: {
+        port: process.env.ML_SERVICE_PORT,
+        host: process.env.ML_SERVICE_HOST,
+      },
+      transport: Transport.TCP,
+    };
   }
 
   get(key: string): any {

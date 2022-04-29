@@ -25,14 +25,14 @@ import { ConfigService } from './api_services/config.service';
       },
       inject: [ConfigService],
     },
-    // {
-    //   provide: 'ML_SERVICE',
-    //   useFactory: (configService: ConfigService) => {
-    //     const mlServiceOptions = configService.get('mlService');
-    //     return ClientProxyFactory.create(mlServiceOptions);
-    //   },
-    //   inject: [ConfigService],
-    // },
+    {
+      provide: 'ML_SERVICE',
+      useFactory: (configService: ConfigService) => {
+        const mlServiceOptions = configService.get('mlService');
+        return ClientProxyFactory.create(mlServiceOptions);
+      },
+      inject: [ConfigService],
+    },
   ],
 })
 export class AppModule {}
