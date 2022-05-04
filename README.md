@@ -2,6 +2,8 @@
 
 App for ucla students to see daily menu of dinning halls with reviews and pictures
 
+(microservice based app v2 at nest.js branch)
+
 # Setup
 
 This app uses Express.js, React Native, and MongoDB
