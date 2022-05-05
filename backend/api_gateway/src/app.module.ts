@@ -7,6 +7,7 @@ import { FoodController } from './api_controllers/food.controller';
 
 // gateway config
 import { ConfigService } from './api_services/config.service';
+import { UserController } from './api_controllers/user.controller';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { ConfigService } from './api_services/config.service';
       isGlobal: true,
     }),
   ],
-  controllers: [FoodController],
+  controllers: [FoodController, UserController],
   providers: [
     ConfigService,
     {
